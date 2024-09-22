@@ -1,0 +1,113 @@
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+	background: var(--blanco-fondo)
+	
+
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+/* Logo */
+.logo{
+	height: 50px;
+}
+
+
+/* Header */
+#header-content ul { 
+	height: 70px;
+	margin: 0; 
+	padding: 1em; 
+	list-style-type: none; 
+	display: flex;
+    justify-content: center;
+    align-items: center; 
+	background-color: var(--blanco-fondo); 
+	} 
+ 
+#header-content ul li {  
+	display: inline; 
+	margin: 0 20px;
+	} 
+ 
+
+#header-content ul li .search-form {
+	display: flex;
+    justify-content: center;
+	align-items: center; 
+	}
+	
+#header-content ul li .search-form input[type="search"] {
+	margin-right: 20px;
+	width: 50vw;
+	padding: .3em 1em;
+	font-size: 16px;
+	border: 2px solid var(--azul-oscuro);
+	border-radius: 30px;
+	background-color: var(--blanco-fondo);
+	color: var(--blanco-fondo);
+	outline: none;
+	}
+
+#header-content ul li .search-form button {
+    background-image: url(/img/lupa-blanca.png);
+    background-size: 40px 40px;
+    height: 40px;
+    width: 40px;
+	color: var(--blanco-fondo);
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	}
+ 
+#header-content ul li a:hover { 
+	color: #000; 
+	background-color: var(--blanco-fondo); 
+	} 
+
+/* Iconos */
+.icono{
+	height: 42px;
+	border-radius: 20px;
+}
+ 
+/* Navbar */
+#navbar ul { 
+	height: 50px;
+	margin: 0; 
+	padding: 10px; 
+	list-style-type: none; 
+	text-align: center; 
+	background-color: var(--azul-oscuro); 
+	} 
+ 
+#navbar ul li {  
+	display: inline; 
+	} 
+ 
+#navbar ul li a { 
+	font-family: var(--font-main);
+	text-decoration: none; 
+	font-weight: 600;
+	padding: .2em 3em; 
+	color: var(--blanco-fondo); 
+	background-color: var(--azul-oscuro); 
+	
+	} 
+ 
+#navbar ul li a:hover { 
+	transition: 0.2s ease;
+	padding-bottom: 5px;
+	border-bottom: 4px solid var(--blanco-fondo); 
+
+	} 
+ 
