@@ -2,9 +2,6 @@
 *{
 	margin: 0;
 	padding: 0;
-	background: var(--blanco-fondo)
-	
-
 }
 
 :root{
@@ -16,6 +13,23 @@
 	--font-main: 'League Spartan', sans-serif; 
 	--font-sec: 'Garet', sans-serif;
 }
+
+p{
+	font-family: var(--font-sec);
+	background-color: transparent;
+}
+h1, h2, h3, button{
+	font-family: var(--font-main);
+	background-color: transparent ;
+}
+
+hr {
+	border-style: none;
+	border: 10px solid rgb(0, 26, 255);
+	border-radius: 5px;
+}
+
+
 /* Logo */
 .logo{
 	height: 50px;
@@ -110,4 +124,54 @@
 	border-bottom: 4px solid var(--blanco-fondo); 
 
 	} 
+
+/* Section
+
+	News  */
+
+#news{
+	display: flex;
+    justify-content: center;
+	align-items: center; 
+	height: 250px;
+	width: 100%;
+}
+.news-legend{
+	width: 30%;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	align-items: center; 
+	text-align: center;
+}
+.news-legend h1{
+	color: var(--azul-oscuro);
+	font-weight: 600;
+	margin-bottom: 26px;
+}
+.news-legend p{
+	font-size: 18px;
+	margin-bottom: 26px;
+}
+.news-legend button{
+	padding: 5px;
+	width: 14vw;
+	border-radius: 10px;
+	background-color: var(--azul-oscuro);
+	border: transparent;
+	color: var(--blanco-fondo);
+	font-weight: 800;
+}
+.news-square{
+	background-color: #2891FF;
+	width: 30%;
+	height: 200px;
+	margin: 10px;
+	border-radius: 20px;
+	border: solid 3px var(--azul-oscuro);
+}
+.special{
+	background-color: var(--verde);
+}
  
