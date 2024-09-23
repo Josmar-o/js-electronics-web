@@ -24,10 +24,14 @@ h1, h2, h3, button{
 }
 
 hr {
-	border-style: none;
-	border: 10px solid rgb(0, 26, 255);
-	border-radius: 5px;
+    border: none;
+    height: 3px;
+    background-color: #071952;
+    border-radius: 10px; 
+    width: 75%;
+    margin: 20px auto;
 }
+
 
 
 /* Logo */
