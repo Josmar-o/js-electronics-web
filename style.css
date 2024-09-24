@@ -1,3 +1,4 @@
+
 /* Aplica a todo */
 *{
 	margin: 0;
@@ -100,36 +101,53 @@ hr {
  
 /* Navbar */
 #navbar ul { 
-	height: 50px;
-	margin: 0; 
-	padding: 10px; 
-	list-style-type: none; 
-	text-align: center; 
-	background-color: var(--azul-oscuro); 
-	} 
- 
-#navbar ul li {  
-	display: inline; 
-	} 
- 
-#navbar ul li a { 
-	font-family: var(--font-main);
-	text-decoration: none; 
-	font-weight: 600;
-	padding: .2em 3em; 
-	color: var(--blanco-fondo); 
-	background-color: var(--azul-oscuro); 
-	
-	} 
- 
-#navbar ul li a:hover { 
-	transition: 0.2s ease;
-	padding-bottom: 5px;
-	border-bottom: 4px solid var(--blanco-fondo); 
+    height: 50px;
+    margin: 0; 
+    padding: 10px; 
+    list-style-type: none; 
+    text-align: center; 
+    background-color: var(--azul-oscuro); 
+} 
 
-	} 
+#navbar ul li {  
+    display: inline; 
+	margin: 3vw;
+}
+
+#navbar ul li a {
+    font-family: var(--font-main);
+    text-decoration: none;
+    font-weight: 600;
+    padding: .2em 0;
+    color: var(--blanco-fondo);
+    background-color: var(--azul-oscuro);
+    position: relative;
+    display: inline-block; /* Ensures the pseudo-element aligns with the word */
+}
+
+#navbar ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px; 
+    width: 0;
+    height: 4px; 
+    background-color: var(--blanco-fondo);
+    transition: width 0.2s ease; 
+}
+
+#navbar ul li a:hover::after {
+    width: 100%; 
+}
 
 /* Section
+	Slide */
+	.carousel-item img {
+		height: 400px;
+		object-fit: cover; /* Ensures the image covers the height without distortion */
+	}
+
+/* Article
 
 	News  */
 
