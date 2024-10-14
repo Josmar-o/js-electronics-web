@@ -1,0 +1,94 @@
+
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+
+p{
+	font-family: var(--font-sec);
+	background-color: transparent;
+}
+h1, h2, h3, button{
+	font-family: var(--font-main);
+	background-color: transparent ;
+}
+
+hr {
+    border: none;
+    height: 3px;
+    background-color: #071952;
+    border-radius: 10px; 
+    width: 75%;
+    margin: 20px auto;
+}
+
+
+
+/* Section
+	Slide */
+	.carousel-item img {
+		height: 400px;
+		object-fit: cover; /* Ensures the image covers the height without distortion */
+	}
+
+/* Article
+
+	News  */
+
+#news{
+	display: flex;
+    justify-content: center;
+	align-items: center; 
+	height: 250px;
+	width: 100%;
+}
+.news-legend{
+	width: 30%;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	align-items: center; 
+	text-align: center;
+}
+.news-legend h1{
+	color: var(--azul-oscuro);
+	font-weight: 600;
+	margin-bottom: 26px;
+}
+.news-legend p{
+	font-size: 18px;
+	margin-bottom: 26px;
+}
+.news-legend button{
+	padding: 5px;
+	width: 14vw;
+	border-radius: 10px;
+	background-color: var(--azul-oscuro);
+	border: transparent;
+	color: var(--blanco-fondo);
+	font-weight: 800;
+}
+.news-square{
+	background-color: #2891FF;
+	width: 30%;
+	height: 200px;
+	margin: 10px;
+	border-radius: 20px;
+	border: solid 3px var(--azul-oscuro);
+}
+.special{
+	background-color: var(--verde);
+}
+ 

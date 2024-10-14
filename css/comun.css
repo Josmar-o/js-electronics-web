@@ -1,4 +1,3 @@
-
 /* Aplica a todo */
 *{
 	margin: 0;
@@ -139,61 +138,3 @@ hr {
 #navbar ul li a:hover::after {
     width: 100%; 
 }
-
-/* Section
-	Slide */
-	.carousel-item img {
-		height: 400px;
-		object-fit: cover; /* Ensures the image covers the height without distortion */
-	}
-
-/* Article
-
-	News  */
-
-#news{
-	display: flex;
-    justify-content: center;
-	align-items: center; 
-	height: 250px;
-	width: 100%;
-}
-.news-legend{
-	width: 30%;
-	height: 200px;
-	display: flex;
-	flex-direction: column;
-    justify-content: center;
-	align-items: center; 
-	text-align: center;
-}
-.news-legend h1{
-	color: var(--azul-oscuro);
-	font-weight: 600;
-	margin-bottom: 26px;
-}
-.news-legend p{
-	font-size: 18px;
-	margin-bottom: 26px;
-}
-.news-legend button{
-	padding: 5px;
-	width: 14vw;
-	border-radius: 10px;
-	background-color: var(--azul-oscuro);
-	border: transparent;
-	color: var(--blanco-fondo);
-	font-weight: 800;
-}
-.news-square{
-	background-color: #2891FF;
-	width: 30%;
-	height: 200px;
-	margin: 10px;
-	border-radius: 20px;
-	border: solid 3px var(--azul-oscuro);
-}
-.special{
-	background-color: var(--verde);
-}
- 
