@@ -1,32 +1,83 @@
-/* common.css */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
+
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
 }
 
-#header-catalog {
-    text-align: center;
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+
+p{
+	font-family: var(--font-sec);
+	background-color: transparent;
+}
+h1, h2, h3, button{
+	font-family: var(--font-main);
+	background-color: transparent ;
+}
+
+hr {
+    border: none;
+    height: 3px;
+    background-color: #071952;
+    border-radius: 10px; 
+    width: 75%;
+    margin: 20px auto;
+}
+
+
+main {
+    display: flex;
     padding: 20px;
-    background-color: #333;
-    color: white;
+    gap: 20px; /* Espacio entre el aside y el section */
 }
 
+.filters {
+    width: 25%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Le da un pequeño efecto de sombra */
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 10px ;
+}
+
+.search-results {
+    grid-column: span 3; /* Ocupa ambas columnas del grid */
+    margin: 10px;
+    font-size: 1em;
+    font-family: var(--font-sec);
+    color: #333; /* Color del texto */
+}
+
+/* Asegúrate de que el h3 se muestre como bloque fuera del grid */
+.search-results {
+    display: block; /* Se asegura que el h3 se trate como bloque */
+}
 .catalog {
+    width: 70%; /* Ocupa el resto del espacio */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: 33% 33% 33%;
+    gap: 20px; /* Espacio entre los artículos */
+    margin: 15px;
 }
 
 .catalog-item {
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 10px ;
     padding: 15px;
     text-align: center;
     transition: transform 0.2s;
+    margin: 10px;
 }
 
 .catalog-item:hover {
@@ -34,7 +85,7 @@ body {
 }
 
 .catalog-item img {
-    max-width: 100%;
+    width: 55%;
     height: auto;
 }
 
@@ -54,11 +105,4 @@ body {
 
 .add-to-cart:hover {
     background-color: #218838;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
 }
