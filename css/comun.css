@@ -99,14 +99,13 @@ hr {
 }
  
 /* Navbar */
-#navbar ul { 
-    height: 50px;
-    margin: 0; 
-    padding: 10px; 
-    list-style-type: none; 
-    text-align: center; 
-    background-color: var(--azul-oscuro); 
-} 
+#navbar ul {
+    height: 50px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: var(--azul-oscuro);
+}
 
 #navbar ul li {  
     display: inline; 

@@ -9,35 +9,56 @@
 </head>
 <body>
     <div id="header"></div>
-    <header id="header-catalog">
-        <h1>Product Catalog</h1>
-    </header>
-
+   
     <main>
+        <aside class="filters">
+            <h2>Filtros de Búsqueda</h2>
+            
+            <form>
+                <label for="category">Categoría:</label>
+                <select id="category" name="category">
+                    <option value="all">Todas</option>
+                    <option value="category1">Categoría 1</option>
+                    <option value="category2">Categoría 2</option>
+                </select>
+                <!-- Puedes añadir más filtros aquí -->
+            </form>
+        </aside>
+    
         <section class="catalog">
+            <h3 class="search-results">Resultados de Búsqueda:</h3>
             <article class="catalog-item">
-                <img src="img/item1.jpg" alt="Item 1 Description">
-                <h2>Item 1 Title</h2>
-                <p>Description of item 1.</p>
+                <img src="img/laptop.png" alt="Item 1 Description">
+                <hr>
+                <h2 id="title-laptop">Lenovo Thinkpad T14</h2>
+                <p id="description-laptop">i5-1035G1 | 16GB RAM | 256 GB SSD</p>
                 <span class="price">$19.99</span>
                 <button class="add-to-cart">Add to Cart</button>
             </article>
-
+    
             <article class="catalog-item">
-                <img src="img/item2.jpg" alt="Item 2 Description">
-                <h2>Item 2 Title</h2>
-                <p>Description of item 2.</p>
+                <img src="img/laptop.png" alt="Item 2 Description">
+                <hr>
+                <h2 id="title-laptop">Lenovo Thinkpad T14</h2>
+                <p id="description-laptop">i5-1035G1 | 16GB RAM | 256 GB SSD</p>
                 <span class="price">$29.99</span>
                 <button class="add-to-cart">Add to Cart</button>
             </article>
 
-            <!-- Add more items as needed -->
+            <article class="catalog-item">
+                <img src="img/laptop.png" alt="Item 2 Description">
+                <hr>
+                <h2 id="title-laptop">Lenovo Thinkpad T14</h2>
+                <p id="description-laptop">i5-1035G1 | 16GB RAM | 256 GB SSD</p>
+                <span class="price">$29.99</span>
+                <button class="add-to-cart">Add to Cart</button>
+            </article>
+    
+            
         </section>
     </main>
+    
 
-    <footer>
-        <p>&copy; 2024 Your Company Name</p>
-    </footer>
     <script src="js/cargarReutilizable.js"></script>
 </body>
 </html>
