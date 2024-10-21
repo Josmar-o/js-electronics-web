@@ -19,18 +19,19 @@ p{
 	font-family: var(--font-sec);
 	background-color: transparent;
 }
-h1, h2, h3, button{
+h1, h2, h3, button, span{
 	font-family: var(--font-main);
 	background-color: transparent ;
 }
 
-hr {
+.catalog-item hr  {
     border: none;
-    height: 3px;
+    height: 1.5px;
     background-color: #071952;
     border-radius: 10px; 
-    width: 75%;
-    margin: 20px auto;
+    width: auto;
+    margin: 12px -15px;
+    
 }
 
 
@@ -78,6 +79,8 @@ main {
     text-align: center;
     transition: transform 0.2s;
     margin: 10px;
+    position: relative; 
+
 }
 
 .catalog-item:hover {
@@ -89,9 +92,31 @@ main {
     height: auto;
 }
 
+.description-laptop{
+    margin-top: 50px;
+}
+
+.price-container {
+    position: absolute; /* Positioning the price container absolutely */
+    bottom: 15px;      /* Align it to the bottom */
+    left: 0;           /* Align it to the left */
+    background: var(--verde); /* Background color */
+    border-radius:  0 10px 10px 0;
+    padding: 5px 55px; /* Padding for spacing */
+    height: 20px;
+    border: 2px solid var(--azul-oscuro);
+    border-left: none;
+    
+}
+
+
 .price {
+    
     font-weight: bold;
-    color: #e67e22;
+    color: var(--azul-oscuro); /* Change text color to contrast with background */
+    position: absolute;
+    left: 20px;
+
 }
 
 .add-to-cart {
