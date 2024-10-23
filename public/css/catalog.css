@@ -1,0 +1,142 @@
+
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+
+p{
+	font-family: var(--font-sec);
+	background-color: transparent;
+}
+h1, h2, h3, button, span{
+	font-family: var(--font-main);
+	background-color: transparent ;
+}
+
+.catalog-item hr  {
+    border: none;
+    height: 1.5px;
+    background-color: #071952;
+    border-radius: 10px; 
+    width: auto;
+    margin: 12px -15px;
+    
+}
+
+
+main {
+    display: flex;
+    padding: 20px;
+    gap: 20px; /* Espacio entre el aside y el section */
+}
+
+.filters {
+    width: 25%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Le da un pequeño efecto de sombra */
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 10px ;
+}
+
+.search-results {
+    grid-column: span 3; /* Ocupa ambas columnas del grid */
+    margin: 10px;
+    font-size: 1em;
+    font-family: var(--font-sec);
+    color: #333; /* Color del texto */
+}
+
+/* Asegúrate de que el h3 se muestre como bloque fuera del grid */
+.search-results {
+    display: block; /* Se asegura que el h3 se trate como bloque */
+}
+.catalog {
+    width: 70%; /* Ocupa el resto del espacio */
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    gap: 20px; /* Espacio entre los artículos */
+    margin: 15px;
+}
+
+.catalog-item {
+    background: white;
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 10px ;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s;
+    margin: 10px;
+    position: relative; 
+    height: 270px;
+
+}
+
+.catalog-item:hover {
+    transform: scale(1.05);
+}
+
+.catalog-item img {
+    width: 55%;
+    height: auto;
+}
+
+.description-laptop{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.price-container {
+    position: absolute; /* Positioning the price container absolutely */
+    bottom: 15px;      /* Align it to the bottom */
+    left: 0;           /* Align it to the left */
+    background: var(--verde); /* Background color */
+    border-radius:  0 10px 10px 0;
+    padding: 5px 70px; /* Padding for spacing */
+    height: 20px;
+    border: 2px solid var(--azul-oscuro);
+    border-left: none;
+    
+}
+
+
+.price {
+    
+    font-weight: bold;
+    color: var(--azul-oscuro); /* Change text color to contrast with background */
+    position: absolute;
+    left: 20px;
+
+}
+
+.add-to-cart {
+    
+    background-image: url(/public/img/catalogo_icons/add_to_cart_icon.png);
+    background-size: 40px 40px;
+    height: 40px;
+    width: 40px;
+	color: var(--blanco-fondo);
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+
+    position: absolute; 
+    top: 10px;          
+    right: 10px;        
+}
+
+.add-to-cart:hover {
+    background-image: url(/public/img/catalogo_icons/add_to_cart_hovered_icon.png);
+}
