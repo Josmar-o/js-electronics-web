@@ -1,0 +1,71 @@
+
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+
+p{
+	font-family: var(--font-sec);
+	background-color: transparent;
+}
+h1, h2, h3, button, span{
+	font-family: var(--font-main);
+	background-color: transparent ;
+}
+
+
+.page-item {
+    display: flex;
+    padding: 20px;
+    gap: 20px; 
+}
+
+.item-image{
+    width: 45%;
+    height: 500px;
+    position: relative;
+}
+
+.item-image img{
+    height: auto;
+    width: auto;
+}
+
+.item-description{
+    width: 55%;
+    height: 500px;
+    position: relative;
+}
+
+.item-description h2{
+    margin: 10px 0;
+}
+
+.scrollable {
+    height: 100px; /* or any value */
+    overflow-y: auto;
+    width: 300px;
+    }
+    
+
+.item-description hr, .item-image hr {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border: none;        /* Optional: customize the border */
+    height: 2px;
+    background-color: #071952;
+}
+    

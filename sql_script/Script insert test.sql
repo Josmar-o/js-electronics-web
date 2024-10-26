@@ -1,4 +1,4 @@
-
+USE js_electronics;
 INSERT INTO productos (nombre, descripcion, procesador, ram, rom, tipo_almacenamiento, precio, stock, imagen_url)
 VALUES 
 	(    'Lenovo ThinkPad T14 G2', 

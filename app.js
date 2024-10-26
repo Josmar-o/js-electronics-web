@@ -26,7 +26,9 @@ db.connect((err) => {
 // Serve static files from the 'public' folder 
 app.use('/public', express.static(path.join(__dirname, 'public'))); 
 // Serve images from the 'images_laptops' folder
-app.use('/img_laptops', express.static(path.join(__dirname, 'img_laptops')));
+app.use('/img_laptops', express.static(path.join(__dirname, 'img_laptops') , { index: false }));
+//
+app.use('/html', express.static(path.join(__dirname, 'html'))); 
 
 // Fetch products from the database
 app.get('/productos', (req, res) => {
@@ -40,7 +42,7 @@ app.get('/productos', (req, res) => {
 
 // Serve your HTML file (for the catalog page)
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/html/catalog.html')); // Make sure you have the HTML file
+    res.sendFile(path.join(__dirname, '/html/home.html')); // Make sure you have the HTML file
 });
 
 // Start the server
