@@ -32,7 +32,7 @@ app.use('/html', express.static(path.join(__dirname, 'html')));
 
 // Fetch products from the database
 app.get('/productos', (req, res) => {
-    const sql = 'SELECT * FROM productos';
+    const sql = 'SELECT *, (SELECT producto_imagenes.imagen_url FROM producto_imagenes WHERE producto_imagenes.producto_id = productos.id LIMIT 1) AS imagen_url FROM productos;';
     
     db.query(sql, (err, results) => {
       if (err) throw err;
@@ -50,3 +50,41 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+
+// Route to fetch a single product's details by ID
+app.get('/productos/:id', (req, res) => {
+    const productId = req.params.id;
+    const sql = `
+        SELECT *, 
+        (SELECT producto_imagenes.imagen_url FROM producto_imagenes WHERE producto_imagenes.producto_id = productos.id LIMIT 1) AS imagen_url 
+        FROM productos 
+        WHERE id = ?;`; // Add condition to fetch specific product
+
+    db.query(sql, [productId], (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (result.length > 0) {
+            res.json(result[0]); // Send the product details back
+        } else {
+            res.status(404).json({ error: 'Product not found' }); // Handle product not found
+        }
+    });
+});
+
+// Route to get the total number of products
+app.get('/count-products', (req, res) => {
+    const sql = 'SELECT COUNT(*) AS total FROM productos;'; // Query to count total products
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(result[0].total); // Send back the total count
+    });
+});
+
+

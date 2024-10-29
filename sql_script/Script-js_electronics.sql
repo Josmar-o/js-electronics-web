@@ -12,14 +12,32 @@ CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT NOT NULL,
-    procesador VARCHAR(100) NOT NULL,      -- Especificación del procesador
-    ram VARCHAR(50) NOT NULL,              -- Tamaño de la RAM (por ejemplo, 8GB, 16GB)
-    rom VARCHAR(50) NOT NULL,              -- Capacidad del almacenamiento (por ejemplo, 256GB, 1TB)
-    tipo_almacenamiento ENUM('SSD', 'HDD') NOT NULL,  -- Tipo de almacenamiento: SSD o HDD
+    procesador VARCHAR(100) NOT NULL,
+    ram VARCHAR(50) NOT NULL,
+    rom VARCHAR(50) NOT NULL,
+    tipo_almacenamiento ENUM('SSD', 'HDD') NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
-    imagen_url VARCHAR(255) NOT NULL,
+    tamano_pantalla VARCHAR(50) NOT NULL,
+    resolucion_pantalla VARCHAR(50) NOT NULL,
+    sistema_operativo VARCHAR(50) NOT NULL,
+    tarjeta_grafica VARCHAR(100) NOT NULL,
+    peso DECIMAL(5, 2) NOT NULL,
+    dimensiones VARCHAR(50) NOT NULL,
+    garantia_meses VARCHAR(50) NOT NULL,
+    categoria VARCHAR(50) NOT NULL,
+    marca VARCHAR(50) NOT NULL;
+    fecha_lanzamiento DATE,
     fecha_agregado DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- Table for storing multiple images per product
+CREATE TABLE producto_imagenes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    producto_id INT NOT NULL,
+    imagen_url VARCHAR(255) NOT NULL,
+    FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE
 );
 
 

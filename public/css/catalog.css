@@ -70,7 +70,10 @@ main {
     gap: 20px; /* Espacio entre los artículos */
     margin: 15px;
 }
-
+.catalog-item-link {
+    text-decoration: none;
+    color: inherit;
+}
 .catalog-item {
     background: white;
     border: 2px solid var(--azul-oscuro);
@@ -81,6 +84,7 @@ main {
     margin: 10px;
     position: relative; 
     height: 270px;
+    cursor: pointer;
 
 }
 
@@ -103,11 +107,12 @@ main {
     bottom: 15px;      /* Align it to the bottom */
     left: 0;           /* Align it to the left */
     background: var(--verde); /* Background color */
-    border-radius:  0 10px 10px 0;
+    border-radius:  0 20px 20px 0;
     padding: 5px 70px; /* Padding for spacing */
     height: 20px;
     border: 2px solid var(--azul-oscuro);
     border-left: none;
+    
     
 }
 

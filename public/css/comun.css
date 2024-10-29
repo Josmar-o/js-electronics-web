@@ -13,6 +13,9 @@
 	--font-main: 'League Spartan', sans-serif; 
 	--font-sec: 'Garet', sans-serif;
 }
+body{
+	background-color: var(--blanco-fondo);
+}
 
 p{
 	font-family: var(--font-sec);

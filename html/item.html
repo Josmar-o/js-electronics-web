@@ -3,31 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Product Details</title>
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/item.css">
     <script src="/public/js/cargarReutilizable.js"></script>
-    <script src=""></script>
-    
+    <script src="/public/js/cargarProducto.js"></script>
+
 </head>
 <body>
     <div id="header"></div>
     <section>
         <div class="page-item">
             <div class="item-image">
-                <img src="/img_laptops/laptop.png" alt="">
+                <img id="product-image" src="" alt="Product Image">
+                <div class="select-image"></div>
                 <hr>
             </div>
             <div class="item-description">
-                <h2>Lenovo ThinkPad Yoga L380</h2>
+                <h1 id="product-name">Product Name</h1>
+                <h2 id="product-price" class="price">$0.00</h2>
+                <h4>INFORMACIÓN DEL PRODUCTO</h4>
                 <div class="scrollable">
-                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis perspiciatis aliquid provident earum dicta. Nostrum delectus error laboriosam magni? Quas minus quae amet eius aut dolorem eaque aliquid dignissimos doloribus.</h1>
+                    <ul class="specs-list" id="product-specs">
+                        <!-- Specs will be dynamically inserted here -->
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/procesador_icon.png" alt="Procesador Logo" class="spec-logo">
+                            <span>Procesador</span>
+                            <p class="spec-text" id="spec-procesador">i5 6300u</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/memoria_icon.png" alt="RAM Logo" class="spec-logo">
+                            <span>RAM</span>
+                            <p class="spec-text" id="spec-ram">8GB</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Almacenamiento Logo" class="spec-logo">
+                            <span>Almacenamiento</span>
+                            <p class="spec-text" id="spec-almacenamiento">256GB SSD</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Tamaño de pantalla" class="spec-logo">
+                            <span>Tamaño de pantalla</span>
+                            <p class="spec-text" id="spec-tamano">14 pulgadas</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Resolución" class="spec-logo">
+                            <span>Resolución</span>
+                            <p class="spec-text" id="spec-resolucion">1920 x 1080</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Sistema Operativo" class="spec-logo">
+                            <span>Sistema Operativo</span>
+                            <p class="spec-text" id="spec-sistema">Windows 10 Pro</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Tarjeta Gráfica" class="spec-logo">
+                            <span>Tarjeta Gráfica</span>
+                            <p class="spec-text" id="spec-grafica">Integrated Intel Iris Xe</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Peso" class="spec-logo">
+                            <span>Peso</span>
+                            <p class="spec-text" id="spec-peso">1.5kg</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Dimensiones" class="spec-logo">
+                            <span>Dimensiones</span>
+                            <p class="spec-text" id="spec-dimensiones">32.4 x 22.5 x 1.8 cm</p>
+                        </li>
+                        <li class="spec-item">
+                            <img src="/public/img/product_page_icons/almacenamiento_icon.png" alt="Garantía" class="spec-logo">
+                            <span>Garantía</span>
+                            <p class="spec-text" id="spec-garantia">12 Meses</p>
+                        </li>
+                    </ul>
                 </div>
+
                 <hr>
+                <div class="buttons">
+                    <button>Agregar al carro <img src="/public/img/product_page_icons/add_to_cart_too.png" alt=""></button>
+                    <button>Consultar <img src="/public/img/product_page_icons/consultar_icon.png" alt=""></button>
+                </div>
             </div>
         </div>
-    </section>
-    
-    
+    </section>  
 </body>
 </html>
