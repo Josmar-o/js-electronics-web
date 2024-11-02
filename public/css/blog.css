@@ -1,0 +1,114 @@
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+span{
+    font-family: var(--font-sec);
+    background-color: transparent;
+    color: var(--azul-oscuro);
+    font-weight: 600;
+    font-size: 16px;
+}
+p{
+	font-family: var(--font-sec);
+	background-color: transparent;
+    color: var(--azul-oscuro);
+    font-size: 16px;
+    
+}
+h1, h2, h3,h4, button{
+	font-family: var(--font-main);
+	background-color: transparent ;
+    color: var(--azul-oscuro);
+}
+
+/* Global settings */
+
+
+main {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+    padding: 30px 20px; /* Padding inside main */
+}
+
+/* News section styling */
+.news-section {
+
+    min-height: 300px;
+
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* News Title */
+.news-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.news-section-title img {
+    width: 35px;
+    height: auto;
+}
+
+.news-section-title h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+
+
+
+.news-aside {
+    background-color: #D9F203;
+    padding: 20px; /* Padding inside aside */
+    border-radius: 8px;
+    min-height: 300px;
+}
+
+.news-item {
+    display: grid;
+    grid-template-columns: 3fr 5fr; /* 1 part for image, 3 parts for content */
+    height: 250px;                  /* Total height of the news item */
+    margin: 30px;
+    border-radius: 10px;
+    border: var(--azul-oscuro) solid 2px;
+}
+
+.news-item-img {
+    height: 225px;                  /* Height of the image container */
+    width: 100%;                    /* Width to fill its parent (news-item) */
+    overflow: hidden;               /* Hide any overflow content */
+    display: flex;                  /* Use flexbox to center the image */
+    justify-content: center;        /* Center the image horizontally */
+    align-items: center;            /* Center the image vertically */
+    position: relative;
+    top: 5%;
+}
+
+.news-item-img img {
+    height: auto;                   /* Allow height to adjust automatically */
+    max-height: 100%;               /* Ensure the image does not exceed the height of the container */
+    width: auto;                    /* Maintain aspect ratio */
+    max-width: 100%;                /* Ensure the image does not exceed the width of the container */
+    object-fit: cover;              /* Cover the container without distortion */
+    object-position: center;        /* Center the image */
+    border-radius: 10px;         /* Inherit the border radius from the container */
+}
+
+
+

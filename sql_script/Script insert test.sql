@@ -21,6 +21,8 @@ INSERT INTO productos (
     peso,
     dimensiones,
     garantia_meses,
+    categoria,
+    marca,
     fecha_lanzamiento
 )
 VALUES 
@@ -39,6 +41,8 @@ VALUES
      1.5, 
      '32.4 x 22.5 x 1.8 cm', 
      '12', 
+     'Oficina',
+     'Lenovo',
      '2021-05-01'),
 
     ('Lenovo ThinkPad X220', 
@@ -56,6 +60,8 @@ VALUES
      1.4, 
      '30.1 x 20.0 x 2.1 cm', 
      '12', 
+     'Oficina',
+     'Lenovo',
      '2012-02-01'),
 
     ('Lenovo ThinkPad L380', 
@@ -73,6 +79,8 @@ VALUES
      1.3, 
      '32.0 x 22.0 x 1.9 cm', 
      '12', 
+     'Oficina',
+     'Lenovo',
      '2018-06-01'),
 
     ('Lenovo ThinkPad P1 Gen 4', 
@@ -90,13 +98,17 @@ VALUES
      1.5, 
      '35.4 x 24.1 x 1.9 cm', 
      '12', 
+     'Oficina',
+     'Lenovo',
      '2021-01-15');
 
 
 INSERT INTO producto_imagenes (producto_id, imagen_url)
 VALUES 
     (1, '/img_laptops/laptop.png'),
-
+    (2, '/img_laptops/laptop.png'),
+    (3, '/img_laptops/laptop.png'),
+    (4, '/img_laptops/laptop.png');
 
 select * from productos p 
 
