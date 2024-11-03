@@ -40,20 +40,16 @@ main {
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 20px;
-    padding: 30px 20px; /* Padding inside main */
+    padding: 30px 20px;
 }
 
-/* News section styling */
 .news-section {
-
     min-height: 300px;
-
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* News Title */
 .news-section-title {
     display: flex;
     align-items: center;
@@ -70,9 +66,6 @@ main {
     font-weight: 700;
 }
 
-
-
-
 .news-aside {
     background-color: #D9F203;
     padding: 20px; /* Padding inside aside */
@@ -80,10 +73,16 @@ main {
     min-height: 300px;
 }
 
+.news-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 .news-item {
+    overflow: hidden;
     display: grid;
-    grid-template-columns: 3fr 5fr; /* 1 part for image, 3 parts for content */
-    height: 250px;                  /* Total height of the news item */
+    grid-template-columns: 3fr 5fr; 
+    height: 250px;                  
     margin: 30px;
     border-radius: 10px;
     border: var(--azul-oscuro) solid 2px;
@@ -92,23 +91,33 @@ main {
 .news-item-img {
     height: 225px;                  /* Height of the image container */
     width: 100%;                    /* Width to fill its parent (news-item) */
-    overflow: hidden;               /* Hide any overflow content */
-    display: flex;                  /* Use flexbox to center the image */
-    justify-content: center;        /* Center the image horizontally */
-    align-items: center;            /* Center the image vertically */
-    position: relative;
-    top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .news-item-img img {
-    height: auto;                   /* Allow height to adjust automatically */
-    max-height: 100%;               /* Ensure the image does not exceed the height of the container */
-    width: auto;                    /* Maintain aspect ratio */
-    max-width: 100%;                /* Ensure the image does not exceed the width of the container */
-    object-fit: cover;              /* Cover the container without distortion */
-    object-position: center;        /* Center the image */
-    border-radius: 10px;         /* Inherit the border radius from the container */
+    height: auto;                  
+    max-height: 100%;             
+    width: auto;                    
+    max-width: 90%;               
+    object-fit: cover;             
+    object-position: center;      
+    border-radius: 10px;      
+    border: var(--azul-oscuro) solid 2px;   
 }
 
+.news-item-desc{
+    padding: 15px;
+    border-left: var(--azul-oscuro) solid 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.news-item-desc h3{
+    font-weight: 799;
+    padding-bottom: 10px;
+}
 
 

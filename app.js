@@ -40,6 +40,16 @@ app.get('/productos', (req, res) => {
     });
 });
 
+//fetch news from db
+app.get('/news', (req, res) => {
+    const sql = 'select * from blog';
+    
+    db.query(sql, (err, results) => {
+      if (err) throw err;
+      res.json(results);
+    });
+});
+
 // Serve your HTML file (for the catalog page)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/html/home.html')); // Make sure you have the HTML file

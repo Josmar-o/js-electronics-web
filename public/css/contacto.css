@@ -1,0 +1,98 @@
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+span{
+    font-family: var(--font-sec);
+    background-color: transparent;
+    color: var(--azul-oscuro);
+    font-weight: 600;
+    font-size: 16px;
+}
+p, label{
+	font-family: var(--font-sec);
+	background-color: transparent;
+    color: var(--azul-oscuro);
+    font-size: 16px;
+    
+}
+h1, h2, h3,h4, button{
+	font-family: var(--font-main);
+	background-color: transparent ;
+    color: var(--azul-oscuro);
+}
+
+.contact-section-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.contact-section-title img {
+    height: 40px;
+    margin-right: 10px;
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contact-section{
+    width: 40%;
+
+    
+}
+
+.contact-form {
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: var(--azul-oscuro) solid 1px;
+}
+
+.contact-form h2 {
+    margin: 0 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--azul-oscuro);
+}
+
+.contact-form button {
+    background: var(--azul-oscuro);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.contact-form button:hover {
+    background: var(--azul-claro);
+}

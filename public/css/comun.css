@@ -42,13 +42,11 @@ h1, h2, h3, button{
 /* Header */
 #header-content ul { 
 	height: 70px;
-	margin: 0; 
-	padding: 1em; 
+	margin: 15px; 
 	list-style-type: none; 
 	display: flex;
     justify-content: center;
     align-items: center; 
-	background-color: var(--blanco-fondo); 
 	} 
  
 #header-content ul li {  

@@ -110,7 +110,51 @@ VALUES
     (3, '/img_laptops/laptop.png'),
     (4, '/img_laptops/laptop.png');
 
-select * from productos p 
 
-DELETE FROM productos
-WHERE nombre = 'Lenovo ThinkPad X220';
+
+INSERT INTO blog (titulo, contenido, fecha_publicacion, imagen_url) VALUES 
+('Lanzamiento de la nueva ThinkPad T14 G2', 
+ 'La nueva ThinkPad T14 G2 ha sido lanzada al mercado, y promete ofrecer mejoras significativas en rendimiento y duración de batería. 
+ Esta laptop está diseñada para satisfacer las necesidades de los profesionales que requieren un dispositivo robusto y fiable. 
+ Con un procesador Intel Core i7 de última generación y una tarjeta gráfica dedicada, los usuarios pueden esperar una experiencia 
+ de uso fluida, ya sea para tareas de oficina o aplicaciones más exigentes. Además, la T14 G2 incluye un teclado retroiluminado y 
+ características de seguridad avanzadas, como un lector de huellas dactilares, garantizando que tu información esté siempre protegida.',
+ NOW(),
+ '/public/img/image.png'),
+
+('Consejos para elegir la laptop adecuada', 
+ 'Elegir la laptop adecuada puede ser un desafío, dado el amplio rango de opciones disponibles en el mercado. 
+ Es importante evaluar tus necesidades específicas: ¿la usarás para trabajo, estudio o gaming? Asegúrate de considerar 
+ características clave como el tipo de procesador, la cantidad de memoria RAM, la capacidad de almacenamiento y la duración de la batería. 
+ También es recomendable leer opiniones y comparativas para tomar una decisión informada. Recuerda que invertir en una buena laptop puede 
+ mejorar tu productividad y ofrecer una experiencia más satisfactoria.',
+ NOW(),
+ '/public/img/image.png'),
+
+('Actualizaciones de software para tu laptop', 
+ 'Mantener tu laptop actualizada es crucial para garantizar su funcionamiento óptimo y su seguridad. Las actualizaciones de software 
+ no solo mejoran el rendimiento del sistema operativo, sino que también corrigen vulnerabilidades de seguridad que podrían ser 
+ explotadas por malware. Asegúrate de activar las actualizaciones automáticas y revisa regularmente si hay nuevas versiones de 
+ software disponibles. Recuerda también actualizar tus aplicaciones para aprovechar las últimas funciones y mejoras.',
+ NOW(),
+ '/public/img/image.png'),
+
+('Mejores prácticas para el cuidado de laptops', 
+ 'Cuidar adecuadamente tu laptop puede extender su vida útil y mantener su rendimiento. Aquí te compartimos algunas mejores 
+ prácticas: evita sobrecalentamientos utilizando la laptop en superficies duras, limpia regularmente el teclado y la pantalla, 
+ y utiliza un protector para evitar caídas. También es importante desconectar los dispositivos externos cuando no se usen y 
+ evitar dejar la laptop expuesta a la luz solar directa. Con un poco de cuidado, podrás disfrutar de tu laptop durante mucho más tiempo.',
+ NOW(),
+ '/public/img/image.png'),
+
+('Novedades en el mundo de la tecnología', 
+ 'El mundo de la tecnología avanza a pasos agigantados, y es importante mantenerse informado sobre las últimas tendencias. 
+ Desde innovaciones en inteligencia artificial hasta avances en computación cuántica, la tecnología está cambiando la forma en 
+ que vivimos y trabajamos. Este año, hemos visto el auge de dispositivos híbridos, que combinan lo mejor de las laptops y las tabletas, 
+ ofreciendo versatilidad y rendimiento. Además, los desarrollos en conectividad 5G están transformando la manera en que 
+ interactuamos con el mundo digital. Mantente al día con estas novedades para no quedarte atrás.',
+ NOW(),
+ '/public/img/image.png');
+
+
+

@@ -42,8 +42,6 @@ CREATE TABLE producto_imagenes (
 );
 
 
-
-
 CREATE TABLE carrito (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
@@ -87,6 +85,19 @@ CREATE TABLE blog (
     titulo VARCHAR(200) NOT NULL,
     contenido TEXT NOT NULL,
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP
+    imagen_url VARCHAR(255)  
 );
 
-SELECT * from soporte
+CREATE TABLE tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE noticia_tags (
+    noticia_id INT,
+    tag_id INT,
+    FOREIGN KEY (noticia_id) REFERENCES noticias(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+    PRIMARY KEY (noticia_id, tag_id)
+);
+
