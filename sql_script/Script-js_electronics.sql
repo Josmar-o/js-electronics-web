@@ -93,11 +93,10 @@ CREATE TABLE tags (
     nombre VARCHAR(50) NOT NULL UNIQUE
 );
 
-CREATE TABLE noticia_tags (
-    noticia_id INT,
+CREATE TABLE blog_tags (
+    blog_id INT,
     tag_id INT,
-    FOREIGN KEY (noticia_id) REFERENCES noticias(id) ON DELETE CASCADE,
+    FOREIGN KEY (blog_id) REFERENCES blog(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
-    PRIMARY KEY (noticia_id, tag_id)
+    PRIMARY KEY (blog_id, tag_id)
 );
-
