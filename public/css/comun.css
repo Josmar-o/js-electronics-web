@@ -42,7 +42,7 @@ h1, h2, h3, button{
 /* Header */
 #header-content ul { 
 	height: 70px;
-	margin: 15px; 
+	margin: 5px; 
 	list-style-type: none; 
 	display: flex;
     justify-content: center;
@@ -93,7 +93,7 @@ h1, h2, h3, button{
 
 /* Navbar */
 #navbar ul {
-    height: 50px; 
+    height: 45px; 
     display: flex; 
     justify-content: center; 
     align-items: center; 

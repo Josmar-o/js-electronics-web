@@ -10,6 +10,7 @@
 	--celeste: #B0E4FF;
 	--azul-claro: #2891FF;
 	--azul-oscuro: #071952;
+    --celeste: #b0e4ff;
 	--font-main: 'League Spartan', sans-serif; 
 	--font-sec: 'Garet', sans-serif;
 }
@@ -33,51 +34,51 @@ h1, h2, h3,h4, button{
     color: var(--azul-oscuro);
 }
 
-/* Global settings */
-
 
 main {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 4fr 2fr;
     gap: 20px;
     padding: 30px 20px;
 }
 
-.news-section {
+.cart-section {
     min-height: 300px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.news-section-title {
+.cart-section-title, .cart-aside-title {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.news-section-title img {
+.cart-section-title img, .cart-aside-title img {
     width: 35px;
     height: auto;
 }
 
-.news-section-title h2 {
+.cart-section-title h2, .cart-aside-title h2 {
     font-size: 1.5em;
     font-weight: 700;
 }
 
-.news-aside {
-    background-color: #D9F203;
-    padding: 20px; /* Padding inside aside */
+.cart-aside {
+    padding: 20px; 
     border-radius: 8px;
     min-height: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: var(--celeste);
+    border: var(--azul-oscuro) 2px solid;
 }
 
-.news-link {
+.cart-link {
     text-decoration: none;
 }
 
-.news-item {
+.cart-item {
     overflow: hidden;
     display: grid;
     grid-template-columns: 3fr 5fr; 
@@ -87,26 +88,26 @@ main {
     border: var(--azul-oscuro) solid 2px;
 }
 
-.news-item-img {
-    height: 250px;                  /* Height of the image container */
-    width: 100%;                    /* Width to fill its parent (news-item) */
+.cart-item-img {
+    height: 250px;                  
+    width: 100%;                 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.news-item-img img {
+.cart-item-img img {              
     height: auto; 
     max-height: 90%;          
     width: auto;                    
-    max-width: 90%;              
+    max-width: 90%;               
     object-fit: cover;             
-    object-position: center;      
-    border-radius: 10px;      
-    border: var(--azul-oscuro) solid 2px;   
+    object-position: center;     
+    filter: drop-shadow(0 0 10px var(--verde));
+   
 }
 
-.news-item-desc{
+.cart-item-desc{
     padding: 15px;
     border-left: var(--azul-oscuro) solid 2px;
     display: flex;
@@ -114,9 +115,8 @@ main {
     justify-content: center;
 }
 
-.news-item-desc h3{
+.cart-item-desc h3{
     font-weight: 799;
     padding-bottom: 10px;
 }
-
 
