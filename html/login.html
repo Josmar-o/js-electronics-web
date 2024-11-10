@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="/public/css/comun.css">
+    <script src="/public/js/cargarReutilizable.js"></script>
+    <script src="/public/js/loginOrRegister.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="forms-container">
+        <div class="form-container">
+            <h2 id="form-title">Login</h2>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            
+            
+            <form id="register-form" action="/register" method="post" style="display: none;">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="firstName" required>
+                
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="lastName" required>
+                
+                <label for="reg-email">Email</label>
+                <input type="email" id="reg-email" name="email" required>
+                
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" name="password" required>
+                
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirmPassword" required placeholder="Re-enter password">
+            
+                <button type="submit">Register</button>
+                <p class="toggle-link">Already have an account? <span onclick="toggleForm()">Login here</span></p>
+            </form>
+            
+        </div>
+    
+
+    </div>
+    <script>
+        async function handleLogin(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Login Successful',
+                text: result.message,
+            }).then(() => {
+                // Redirect to another page after the alert
+                window.location.href = '/html/home.html';
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: result.message,
+            });
+            // Clear only the password field if login failed
+            document.getElementById('password').value = '';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'An error occurred',
+            text: 'Please try again later.',
+        });
+    }
+}
+
+    </script>
+</body>
+</html>

@@ -14,6 +14,5 @@ window.onload = function() {
                 console.log('FAILED...', error);
             
             });
-        
     });
 };

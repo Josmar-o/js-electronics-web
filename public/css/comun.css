@@ -21,9 +21,12 @@ p{
 	font-family: var(--font-sec);
 	background-color: transparent;
 }
-h1, h2, h3, button{
+h1, h2, h3	{
 	font-family: var(--font-main);
 	background-color: transparent ;
+}
+button{
+	font-family: var(--font-main);
 }
 
 
