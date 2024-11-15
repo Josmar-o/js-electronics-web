@@ -33,6 +33,7 @@ app.use(express.json()); // To handle JSON in request body
 app.use(express.urlencoded({ extended: true })); // To handle form data
 
 // Authentication route for login
+// Authentication route for login
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     const sql = 'SELECT * FROM usuarios WHERE email = ?';
@@ -42,6 +43,7 @@ app.post('/login', (req, res) => {
             console.error('Database error:', err);
             return res.status(500).json({ error: 'Database error' });
         }
+
         if (results.length > 0) {
             const user = results[0];
 
@@ -51,10 +53,18 @@ app.post('/login', (req, res) => {
                     req.session.user = {
                         id: user.id,
                         email: user.email,
-                        nombre: user.nombre
+                        nombre: user.nombre,
+                        isAdmin: user.is_admin // Store isAdmin status in session
                     };
-                    // Send JSON response for success
-                    res.json({ success: true, message: 'Login successful' });
+
+                    // Redirect based on admin status
+                    if (user.is_admin) {
+                        // Redirect to admin dashboard or HTML page
+                        res.json({ success: true, redirectUrl: '/html/admin/dashboard.html' });
+                    } else {
+                        // Redirect to regular user profile or HTML page
+                        res.json({ success: true, redirectUrl: '/html/home.html' });
+                    }
                     console.log('Login successful');
                 } else {
                     res.status(401).json({ message: 'Incorrect password' });
@@ -78,9 +88,157 @@ function isAuthenticated(req, res, next) {
 }
 
 // Example of a protected route
-app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.json({ message: `Welcome, ${req.session.user.nombre}` });
+// Add a product to the cart
+app.post('/carrito/add', isAuthenticated, (req, res) => {
+    const producto_id = req.body.productValue;
+    const cantidad = 1;
+    const usuario_id = req.session.user.id; // Get user ID from the session
+
+    // SQL queries
+    const sqlCarritoCheck = 'SELECT id FROM carrito WHERE usuario_id = ?';
+    const sqlCarritoCreate = 'INSERT INTO carrito (usuario_id) VALUES (?)';
+    const sqlCheckProduct = 'SELECT * FROM carrito_productos WHERE carrito_id = ? AND producto_id = ?';
+    const sqlInsertProduct = 'INSERT INTO carrito_productos (carrito_id, producto_id, cantidad) VALUES (?, ?, ?)';
+    const sqlUpdateProduct = 'UPDATE carrito_productos SET cantidad = cantidad + ? WHERE carrito_id = ? AND producto_id = ?';
+
+    // Step 1: Check if the user already has a carrito
+    db.query(sqlCarritoCheck, [usuario_id], (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        let carrito_id;
+
+        if (result.length > 0) {
+            // User already has a carrito, get the carrito_id
+            carrito_id = result[0].id;
+            addProductToCarrito(carrito_id);
+        } else {
+            // No carrito found, create one
+            db.query(sqlCarritoCreate, [usuario_id], (err, result) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+                carrito_id = result.insertId;
+                addProductToCarrito(carrito_id);
+            });
+        }
+
+        // Step 2: Function to add product to the carrito
+        function addProductToCarrito(carrito_id) {
+            // Check if product is already in the cart
+            db.query(sqlCheckProduct, [carrito_id, producto_id], (err, result) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+
+                if (result.length > 0) {
+                    // Product already in cart, update quantity
+                    db.query(sqlUpdateProduct, [cantidad, carrito_id, producto_id], (err) => {
+                        if (err) {
+                            console.error('Database error:', err);
+                            return res.status(500).json({ error: 'Database error' });
+                        }
+                        res.redirect('/html/item.html?id=' + producto_id);
+                    });
+                } else {
+                    // Product not in cart, insert new row
+                    db.query(sqlInsertProduct, [carrito_id, producto_id, cantidad], (err) => {
+                        if (err) {
+                            console.error('Database error:', err);
+                            return res.status(500).json({ error: 'Database error' });
+                        }
+
+                        res.redirect('/html/item.html?id=' + producto_id); // Redirect to the product page after adding
+                    });
+                }
+            });
+        }
+    });
 });
+
+
+
+// View cart contents
+// Ruta para obtener los productos en el carrito
+
+app.get('/carrito', isAuthenticated, (req, res) => {
+    const usuario_id = req.session.user.id;
+
+    // Fetch cart items for the user
+    const sql = `
+        SELECT p.*, cp.cantidad, 
+            (SELECT pi.imagen_url FROM producto_imagenes pi WHERE pi.producto_id = p.id LIMIT 1) AS imagen_url
+        FROM carrito_productos cp
+        JOIN productos p ON cp.producto_id = p.id
+        WHERE cp.carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?);
+
+    `;
+    db.query(sql, [usuario_id], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(results);
+    });
+});
+
+app.post('/carrito/increase', (req, res) => {
+    const producto_id = req.body.producto_id;
+    const usuario_id = req.session.user.id
+
+    db.query(`
+        UPDATE carrito_productos
+        SET cantidad = cantidad + 1
+        WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?`, 
+        [usuario_id, producto_id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error al actualizar la cantidad.');
+            }
+            res.redirect('/html/carrito.html'); 
+        });
+});
+
+
+app.post('/carrito/decrease', (req, res) => {
+    const producto_id = req.body.producto_id;
+    const usuario_id = req.session.user.id
+
+    db.query(`
+        UPDATE carrito_productos
+        SET cantidad = cantidad - 1
+        WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?
+        AND cantidad > 1`, [usuario_id, producto_id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error al actualizar la cantidad.');
+            }
+            res.redirect('/html/carrito.html');  // Redirect back to the cart page after updating
+        });
+});
+
+app.post('/carrito/delete', (req, res) => {
+    const producto_id = req.body.producto_id;
+    const usuario_id = req.session.user.id
+
+    db.query(`
+        DELETE FROM carrito_productos
+        WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?`, 
+        [usuario_id, producto_id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error al eliminar el producto.');
+            }
+            res.redirect('/html/carrito.html');  // Redirect back to the cart page after deleting the item
+        });
+});
+
+
+
 
 // Logout route
 app.post('/logout', (req, res) => {
@@ -103,7 +261,7 @@ app.post('/register', (req, res) => {
                 console.error('Database error:', err);
                 return res.status(500).json({ error: 'Database error' });
             }
-            res.json({ message: 'User registered successfully' });
+            res.json({ success: true, message: 'Registration successful' });
         });
     });
 });
@@ -190,50 +348,13 @@ app.get('/count-products', (req, res) => {
 });
 
 
-
-
-// Route to add an item to the cart
-app.post('/carrito', (req, res) => {
-    const { usuario_id, producto_id, cantidad } = req.body;
-    const sqlCheck = 'SELECT * FROM carrito_productos WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?';
-    const sqlInsert = 'INSERT INTO carrito_productos (carrito_id, producto_id, cantidad) VALUES ((SELECT id FROM carrito WHERE usuario_id = ?), ?, ?)';
-    const sqlUpdate = 'UPDATE carrito_productos SET cantidad = cantidad + ? WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?';
-
-    db.query(sqlCheck, [usuario_id, producto_id], (err, result) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Database error' });
-        }
-        if (result.length > 0) {
-            db.query(sqlUpdate, [cantidad, usuario_id, producto_id], (err, result) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return res.status(500).json({ error: 'Database error' });
-                }
-                res.json({ message: 'Quantity updated successfully' });
-            });
-        } else {
-            db.query(sqlInsert, [usuario_id, producto_id, cantidad], (err, result) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return res.status(500).json({ error: 'Database error' });
-                }
-                res.json({ message: 'Item added to cart successfully' });
-            });
-        }
-    });
+app.get('/get-session-info', (req, res) => {
+    if (req.session.user) {
+        res.json({ is_admin: req.session.user.isAdmin });  // Use isAdmin here
+    } else {
+        res.json({ is_admin: false });
+    }
 });
 
-// Route to modify the quantity of an item in the cart
-app.put('/carrito', (req, res) => {
-    const { usuario_id, producto_id, cantidad } = req.body;
-    const sqlUpdate = 'UPDATE carrito_productos SET cantidad = ? WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?';
 
-    db.query(sqlUpdate, [cantidad, usuario_id, producto_id], (err, result) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Database error' });
-        }
-        res.json({ message: 'Quantity updated successfully' });
-    });
-});
+

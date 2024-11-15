@@ -119,13 +119,24 @@ main {
 .price-row, .cant-row {
     display: flex;
     align-items: center; /* Aligns the items vertically in the center */
-    gap: 10px; /* Adjust the space between "Precio:" and the price */
+    gap: 10px; 
+}
+
+.price-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.price-control form {
+    display: inline-block;
 }
 
 .price-container {
     display: inline-block;
     font-weight: bold;
 }
+
 
 .price {
     color: var(--azul-oscuro);

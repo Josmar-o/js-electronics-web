@@ -136,30 +136,31 @@ h1, h2, h3,h4, button{
 .buttons button{
     display: flex;
     align-items: center;
-    
     gap: 20px;
     padding: 10px 20px;
     border: var(--azul-oscuro) 1.5px solid;
     border-radius: 10px;
-    background-color: var(--azul-claro);
-    color: var(--blanco-fondo);
     font-size: 20px;
     font-weight: 600;
     cursor: pointer;
 }
+.button-add-carrito {
+    background-color: var(--azul-claro);
+    color: var(--blanco-fondo);
+}
 
-.buttons button:nth-child(2) {
+.button-consultar {
     background-color: var(--verde);
     color: var(--azul-oscuro);
 }
 
-.buttons button:nth-child(1):hover {
+.button-add-carrito:hover {
     background-color: var(--azul-oscuro);
     color: var(--blanco-fondo);
     transition: ease .2s;
 }
-
-.buttons button:nth-child(2):hover {
+ 
+.button-consultar:hover {
     background-color: var(--azul-claro);
     color: var(--azul-oscuro);
     transition: ease .2s;

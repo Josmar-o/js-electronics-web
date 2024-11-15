@@ -25,6 +25,7 @@
                 <input type="password" id="password" name="password" required>
                 
                 <button type="submit">Login</button>
+                <p class="toggle-link">No tienes una Cuenta? <span onclick="toggleForm()">Registrese aqui</span></p>
             </form>
             
             
@@ -75,7 +76,8 @@
                 text: result.message,
             }).then(() => {
                 // Redirect to another page after the alert
-                window.location.href = '/html/home.html';
+                window.location.href = result.redirectUrl;
+
             });
         } else {
             Swal.fire({

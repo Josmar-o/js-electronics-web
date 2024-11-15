@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('spec-peso').textContent = `${product.peso} kg`;
                 document.getElementById('spec-dimensiones').textContent = product.dimensiones;
                 document.getElementById('spec-garantia').textContent = `${product.garantia_meses} meses`;
+
+                // Add the product id as a hidden input in the form
+                document.getElementById('productValue').value = product.id;
             })
             .catch(err => console.error('Error fetching product details:', err));
     } else {

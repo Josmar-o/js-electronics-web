@@ -7,6 +7,7 @@ CREATE TABLE usuarios (
     apellido VARCHAR(100) NOT NULL;
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -42,15 +43,6 @@ CREATE TABLE producto_imagenes (
     FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE carrito (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
-    producto_id INT NOT NULL,
-    cantidad INT NOT NULL DEFAULT 1,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (producto_id) REFERENCES productos(id)
-);
 
 CREATE TABLE pedidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,7 +94,6 @@ CREATE TABLE blog_tags (
     PRIMARY KEY (blog_id, tag_id)
 );
 
-DROP TABLE carrito
 
 CREATE TABLE carrito (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -121,3 +112,8 @@ CREATE TABLE carrito_productos (
 );
 
 
+alter table usuarios
+add column apellido VARCHAR(100) NOT null after nombre;
+
+alter table usuarios
+add column is_admin BOOLEAN DEFAULT false
