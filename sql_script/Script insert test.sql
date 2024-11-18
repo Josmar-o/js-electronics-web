@@ -110,6 +110,8 @@ VALUES
     (3, '/img_laptops/laptop.png'),
     (4, '/img_laptops/laptop.png');
 
+    
+
 
 
 INSERT INTO blog (titulo, contenido, fecha_publicacion, imagen_url) VALUES 
@@ -157,4 +159,5 @@ INSERT INTO blog (titulo, contenido, fecha_publicacion, imagen_url) VALUES
  '/public/img/image.png');
 
 
+UPDATE usuarios SET is_admin = TRUE WHERE id = 1;
 

@@ -4,7 +4,7 @@ CREATE Database js_electronics
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL;
+    apellido VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL,
     is_admin BOOLEAN DEFAULT FALSE
@@ -29,7 +29,7 @@ CREATE TABLE productos (
     dimensiones VARCHAR(50) NOT NULL,
     garantia_meses VARCHAR(50) NOT NULL,
     categoria VARCHAR(50) NOT NULL,
-    marca VARCHAR(50) NOT NULL;
+    marca VARCHAR(50) NOT NULL,
     fecha_lanzamiento DATE,
     fecha_agregado DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -77,7 +77,7 @@ CREATE TABLE blog (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(200) NOT NULL,
     contenido TEXT NOT NULL,
-    fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP
+    fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     imagen_url VARCHAR(255)  
 );
 
