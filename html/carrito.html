@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="/public/css/carrito.css">
     <script src="/public/js/cargarReutilizable.js"></script>
     <script src="/public/js/cargarCarrito.js" defer></script>
-
 </head>
-<body> 
+<body>
     <div id="header"></div>
     <main>
         <section>
@@ -18,20 +17,81 @@
                 <div class="cart-section-title">
                     <img src="/public/img/order_page_icons/my_cart_icon.png" alt=""><h2>MI CARRITO</h2>
                 </div>
-
                 <div class="cart-content" id="cartContent">  
-                             
-
                 </div>
-                
             </div>
         </section>
         <aside>
             <div class="cart-aside">
                 <div class="cart-aside-title"> <img src="/public/img/order_page_icons/my_order_icon.png" alt=""><h2>RESUMEN DE MI ORDEN</h2> </div>
-            </div>
+                <ul id="order-items">
+                    <!-- Los productos del carrito se llenarán dinámicamente -->
+                </ul>
+                <p><strong>Total:</strong> $<span id="order-total">0.00</span></p>
+            </section>
+            <script src="https://js.stripe.com/v3/"></script>
+            <section class="payment-method">
+                <h2>Seleccionar Método de Pago</h2>
+                <form id="payment-form">
+                    <label for="payment-method">Método de Pago:</label>
+                    <select name="payment_method" id="payment-method" required>
+                        <option value="card">Tarjeta de Crédito/Débito</option>
+                    </select>
+                    <div id="card-element"><!-- Stripe Card Element se renderiza aquí --></div>
+                    <button id="submit">Confirmar y Pagar</button>
+                    <p id="payment-message"></p>
+                </form>
+            </section>
         </aside>
     </main>
+
+   
+    <script>
+      const stripe = Stripe('pk_test_51QM4N8KYJOBJ3mZy5D59393kCGvjITVss0wY1bS7a2961gaQHqLtTu1yB0lLJPN25rI2W3dlIjtnoj4aNBC6OAVt00GlPmsXWY'); // Reemplaza con tu clave pública
+      const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
     
+        const paymentForm = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit');
+        const paymentMessage = document.getElementById('payment-message');
+    
+        paymentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            // Crear el token de Stripe
+            const {token, error} = await stripe.createToken(card);
+    
+            if (error) {
+                paymentMessage.textContent = error.message;
+            } else {
+                // Enviar los datos al servidor sin recargar la página
+                const paymentData = {
+                    payment_method: 'card',  // Método de pago seleccionado
+                    token: token.id,  // El token generado por Stripe
+                };
+    
+                try {
+                    const response = await fetch('/procesar-pago', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(paymentData),
+                    });
+    
+                    const data = await response.json();
+                    if (response.ok) {
+                        window.location.href = `/html/confirmacion.html?pedido_id=${data.pedido_id}`;// Redirigir al usuario a la confirmación del pedido
+                    } else {
+                        paymentMessage.textContent = data.error || 'Hubo un problema al procesar el pago.';
+                    }
+                } catch (error) {
+                    paymentMessage.textContent = 'Hubo un error al procesar la solicitud.';
+                }
+            }
+        });
+    </script>
+    <script src="/public/js/mostrarPedido.js"></script>
 </body>
 </html>

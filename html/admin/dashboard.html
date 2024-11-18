@@ -10,5 +10,72 @@
 </head>
 <body>
    <div id="header"></div>
+    <div class="container">
+      <h1>Add Product</h1>
+      <form action="/add-product" method="POST" enctype="multipart/form-data">
+          <label for="nombre">Product Name</label>
+          <input type="text" id="nombre" name="nombre" required>
+
+          <label for="descripcion">Description</label>
+          <textarea id="descripcion" name="descripcion" required></textarea>
+
+          <label for="procesador">Processor</label>
+          <input type="text" id="procesador" name="procesador" required>
+
+          <label for="ram">RAM</label>
+          <input type="text" id="ram" name="ram" required>
+
+          <label for="rom">ROM</label>
+          <input type="text" id="rom" name="rom" required>
+
+          <label for="tipo_almacenamiento">Storage Type</label>
+          <select id="tipo_almacenamiento" name="tipo_almacenamiento" required>
+              <option value="SSD">SSD</option>
+              <option value="HDD">HDD</option>
+          </select>
+
+          <label for="precio">Price</label>
+          <input type="number" id="precio" name="precio" required>
+
+          <label for="stock">Stock</label>
+          <input type="number" id="stock" name="stock" required>
+
+          <label for="tamano_pantalla">Screen Size</label>
+          <input type="text" id="tamano_pantalla" name="tamano_pantalla" required>
+
+          <label for="resolucion_pantalla">Screen Resolution</label>
+          <input type="text" id="resolucion_pantalla" name="resolucion_pantalla" required>
+
+          <label for="sistema_operativo">Operating System</label>
+          <input type="text" id="sistema_operativo" name="sistema_operativo" required>
+
+          <label for="tarjeta_grafica">Graphics Card</label>
+          <input type="text" id="tarjeta_grafica" name="tarjeta_grafica" required>
+
+          <label for="peso">Weight</label>
+          <input type="number" step="0.01" id="peso" name="peso" required>
+
+          <label for="dimensiones">Dimensions</label>
+          <input type="text" id="dimensiones" name="dimensiones" required>
+
+          <label for="garantia_meses">Warranty (Months)</label>
+          <input type="text" id="garantia_meses" name="garantia_meses" required>
+
+          <label for="categoria">Category</label>
+          <input type="text" id="categoria" name="categoria" required>
+
+          <label for="marca">Brand</label>
+          <input type="text" id="marca" name="marca" required>
+
+          <label for="fecha_lanzamiento">Release Date</label>
+          <input type="date" id="fecha_lanzamiento" name="fecha_lanzamiento" required>
+
+          <label for="imagenes">Product Images</label>
+          <input type="file" id="imagenes" name="imagenes" multiple required>
+
+          <button type="submit">Add Product</button>
+      </form>
+    </div>
+</form>
 </body>
 </html>

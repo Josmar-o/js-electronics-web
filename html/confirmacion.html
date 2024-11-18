@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Pedido</title>
+    <link rel="stylesheet" href="/public/css/confirmacion.css">
+    <link rel="stylesheet" href="/public/css/comun.css">
+    <script src="/public/js/cargarReutilizable.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+    <header class="confirmation-header">
+        <h1>¡Pedido Confirmado!</h1>
+        <p>Gracias por tu compra, <span id="usuario-nombre"></span>.</p>
+    </header>
+
+    <section class="order-summary">
+        <h2>Resumen del Pedido</h2>
+        <ul id="order-details">
+            <!-- Aquí se cargan dinámicamente los productos del pedido -->
+        </ul>
+        <div class="order-total">
+            <h3>Total:</h3>
+            <p id="total-amount"></p>
+        </div>
+    </section>
+
+    <div class="consulta">
+        <p>Si tienes preguntas sobre tu pedido, por favor <a href="/html/contacto.html">contáctanos</a>.</p>
+    </div>
+
+    <script src="/public/js/confirmacion.js"></script>
+</html>

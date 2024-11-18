@@ -3,6 +3,9 @@ const mysql = require('mysql');
 const path = require('path');
 const session = require('express-session'); // Import express-session
 const bcrypt = require('bcrypt'); // Install bcrypt for password hashing
+const validator = require('validator');
+const multer = require('multer');
+
 
 const app = express();
 
@@ -252,15 +255,18 @@ app.post('/logout', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { firstName, lastName, email, password } = req.body;
+
+    // Input validation
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({ error: 'Invalid email address' });
+    }
+
     bcrypt.hash(password, 10, (err, hash) => {
         if (err) return res.status(500).json({ error: 'Error hashing password' });
         
         const sql = 'INSERT INTO usuarios (nombre, apellido, email, contrasena) VALUES (?, ?, ?, ?)';
         db.query(sql, [firstName, lastName, email, hash], (err, result) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ error: 'Database error' });
-            }
+            if (err) return res.status(500).json({ error: 'Database error' });
             res.json({ success: true, message: 'Registration successful' });
         });
     });
@@ -358,3 +364,242 @@ app.get('/get-session-info', (req, res) => {
 
 
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, 'img_laptops'));  // Set destination folder
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);  // Get file extension
+        cb(null, Date.now() + ext);  // Set file name to the current timestamp to avoid overwriting
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// Middleware for authentication
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
+}
+
+// Route to display product form
+app.get('/add-product', (req, res) => {
+    res.sendFile(path.join(__dirname, 'product_upload.html'));
+});
+
+// Handle the form submission to add product
+app.post('/add-product', upload.array('imagenes', 5), (req, res) => {
+    const { nombre, descripcion, procesador, ram, rom, tipo_almacenamiento, precio, stock, tamano_pantalla, resolucion_pantalla, sistema_operativo, tarjeta_grafica, peso, dimensiones, garantia_meses, categoria, marca, fecha_lanzamiento } = req.body;
+
+    // Validate the input fields
+    if (!nombre || !descripcion || !procesador || !ram || !rom || !tipo_almacenamiento || !precio || !stock || !tamano_pantalla || !resolucion_pantalla || !sistema_operativo || !tarjeta_grafica || !peso || !dimensiones || !garantia_meses || !categoria || !marca || !fecha_lanzamiento) {
+        return res.status(400).json({ message: 'Please fill all the fields.' });
+    }
+
+    const productData = {
+        nombre,
+        descripcion,
+        procesador,
+        ram,
+        rom,
+        tipo_almacenamiento,
+        precio,
+        stock,
+        tamano_pantalla,
+        resolucion_pantalla,
+        sistema_operativo,
+        tarjeta_grafica,
+        peso,
+        dimensiones,
+        garantia_meses,
+        categoria,
+        marca,
+        fecha_lanzamiento
+    };
+
+    // Insert product details into database
+    const query = 'INSERT INTO productos SET ?';
+    db.query(query, productData, (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error inserting product into database.' });
+        }
+
+        // Get the inserted product ID
+        const productId = result.insertId;
+
+        // Save image URLs in database
+        if (req.files) {
+            req.files.forEach(file => {
+                const imageData = {
+                    producto_id: productId,
+                    imagen_url: '/img_laptops/' + file.filename
+                };
+                db.query('INSERT INTO producto_imagenes SET ?', imageData, (err) => {
+                    if (err) console.log('Error inserting product images', err);
+                });
+            });
+        }
+
+        res.status(200).json({ message: 'Product added successfully!' });
+    });
+});
+
+
+app.get('/carrito/data', isAuthenticated, (req, res) => {
+    const usuario_id = req.session.user.id;
+
+    const query = `
+        SELECT p.nombre, cp.cantidad, p.precio
+        FROM carrito_productos cp
+        JOIN productos p ON cp.producto_id = p.id
+        WHERE cp.carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?)
+    `;
+
+    db.query(query, [usuario_id], (err, result) => {
+        if (err) {
+            console.error('Error fetching cart data:', err);
+            return res.status(500).json({ error: 'Error fetching cart data.' });
+        }
+        res.json(result);
+    });
+});
+ 
+
+
+app.get('/api/pedido/confirmacion', isAuthenticated, (req, res) => {
+    const { pedido_id } = req.query;
+    const usuario_id = req.session.user.id; // Obtener el usuario autenticado
+
+    if (!pedido_id) {
+        return res.status(400).json({ error: "No se proporcionó un pedido_id." });
+    }
+
+    // Consulta para verificar que el pedido pertenece al usuario autenticado
+    const sqlPedido = `
+        SELECT p.id, p.total, u.nombre AS usuario
+        FROM pedidos p
+        JOIN usuarios u ON p.usuario_id = u.id
+        WHERE p.id = ? AND p.usuario_id = ?
+    `;
+
+    const sqlProductos = `
+        SELECT dp.cantidad, dp.precio_unitario, pr.nombre,
+               (dp.cantidad * dp.precio_unitario) AS precio_total
+        FROM detalle_pedido dp
+        JOIN productos pr ON dp.producto_id = pr.id
+        WHERE dp.pedido_id = ?
+    `;
+
+    db.query(sqlPedido, [pedido_id, usuario_id], (err, pedidos) => {
+        if (err) {
+            console.error("Error al obtener el pedido:", err);
+            return res.status(500).json({ error: "Error al cargar el pedido." });
+        }
+
+        if (pedidos.length === 0) {
+            return res.status(403).json({ error: "No tienes permiso para ver este pedido." });
+        }
+
+        const pedido = pedidos[0];
+        db.query(sqlProductos, [pedido_id], (err, productos) => {
+            if (err) {
+                console.error("Error al obtener los productos del pedido:", err);
+                return res.status(500).json({ error: "Error al cargar los productos." });
+            }
+
+            res.json({
+                usuario: pedido.usuario,
+                total: pedido.total,
+                productos
+            });
+        });
+    });
+});
+
+const Stripe = require('stripe');
+const stripe = Stripe('sk_test_51QM4N8KYJOBJ3mZyzcZ4wx5x4SRuz3w5YmRpsAP7n3S97Ye77LGziNuiRmZ2gt2PrWrjC3W3rpERltxj7BrOqZwW00zkKGjDQw'); // Reemplaza con tu clave secreta de Stripe
+
+app.post('/procesar-pago', isAuthenticated, async (req, res) => {
+    const usuario_id = req.session.user.id;
+    const { payment_method, token } = req.body;
+
+    try {
+        // Obtener los productos del carrito
+        const queryCarrito = `
+            SELECT cp.producto_id, cp.cantidad, p.precio
+            FROM carrito_productos cp
+            JOIN productos p ON cp.producto_id = p.id
+            WHERE cp.carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?)
+        `;
+
+        db.query(queryCarrito, [usuario_id], async (err, carrito) => {
+            if (err) {
+                console.error('Error fetching cart data:', err);
+                return res.status(500).send('Error al procesar el pago.');
+            }
+
+            // Calcular el total
+            let total = 0;
+            const detalles = carrito.map(item => {
+                total += item.precio * item.cantidad;
+                return [null, item.producto_id, item.cantidad, item.precio];
+            });
+
+            // Crear el pedido
+            const queryPedido = 'INSERT INTO pedidos (usuario_id, total, estado) VALUES (?, ?, ?)';
+            db.query(queryPedido, [usuario_id, total, 'pendiente'], (err, result) => {
+                if (err) {
+                    console.error('Error creating order:', err);
+                    return res.status(500).send('Error al crear el pedido.');
+                }
+
+                const pedido_id = result.insertId;
+
+                // Insertar detalles del pedido
+                const queryDetalles = `
+                    INSERT INTO detalle_pedido (pedido_id, producto_id, cantidad, precio_unitario)
+                    VALUES ?
+                `;
+                detalles.forEach(d => (d[0] = pedido_id)); // Asignar pedido_id a cada detalle
+                db.query(queryDetalles, [detalles], (err) => {
+                    if (err) {
+                        console.error('Error inserting order details:', err);
+                        return res.status(500).send('Error al agregar los detalles del pedido.');
+                    }
+
+                    // Vaciar carrito
+                    const queryVaciar = `
+                        DELETE FROM carrito_productos WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?)
+                    `;
+                    db.query(queryVaciar, [usuario_id], async (err) => {
+                        if (err) {
+                            console.error('Error clearing cart:', err);
+                            return res.status(500).send('Error al vaciar el carrito.');
+                        }
+
+                        // Procesar el pago con Stripe
+                        const charge = await stripe.charges.create({
+                            amount: total * 100, // Convertir a centavos
+                            currency: 'usd', // Cambia a la moneda que necesites
+                            source: token, // El token de Stripe
+                            description: `Pedido de usuario ${usuario_id}`,
+                        });
+                        
+
+                        if (charge.status === 'succeeded') {
+                            res.json({ success: true, pedido_id: pedido_id });
+                        } else {
+                            res.status(500).json({ error: 'Pago fallido' });
+                        }
+                    });
+                });
+            });
+        });
+    } catch (error) {
+        console.error('Error procesando pago:', error);
+        res.status(500).json({ error: 'Hubo un error al procesar el pago.' });
+    }
+});
