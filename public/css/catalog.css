@@ -130,7 +130,7 @@ main {
 
 .add-to-cart {
     
-    background-image: url(/public/img/catalogo_icons/add_to_cart_icon.png);
+    background-image: url(/public/img/catalogo_icons/add_to_cart_icon.svg);
     background-size: 40px 40px;
     height: 40px;
     width: 40px;
@@ -145,5 +145,5 @@ main {
 }
 
 .add-to-cart:hover {
-    background-image: url(/public/img/catalogo_icons/add_to_cart_hovered_icon.png);
+    background-image: url(/public/img/catalogo_icons/add_to_cart_hovered_icon.svg);
 }

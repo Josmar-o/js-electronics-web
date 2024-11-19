@@ -51,6 +51,9 @@
     font-weight: bold;
     font-size: 1.2rem;
 }
+.consulta{
+    margin-bottom: 20px;
+}
 
 .consulta p{
     text-align: center;

@@ -57,7 +57,8 @@ section{
 
 .contact-form {
     padding: 20px;
-    margin-top: 20px;
+    margin: 20px 0;
+
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     border: var(--azul-oscuro) solid 1px;

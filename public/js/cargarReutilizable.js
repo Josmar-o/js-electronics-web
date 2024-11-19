@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
+    //Cargar tab icon o favicon en cada html
+        const link = document.createElement("link");
+        link.rel = "icon";
+        link.href = "/public/img/tab_icon/paw_tab_icon.svg"; 
+        link.type = "image/x-icon";
+        document.head.appendChild(link);
+   
     // Load navbar
-    fetch('/public/reutilizable/navbar.html')
+    fetch('/public/reutilizable/header.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header').innerHTML = data;
@@ -19,4 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => console.error('Error fetching session info:', error));
         });
+        fetch('/public/reutilizable/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer').innerHTML = data;
+        });
+        
+
 });
