@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/item.css">
     <script src="/public/js/cargarProducto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body>
@@ -84,7 +85,7 @@
                     
                 </div>
                 <div class="buttons">
-                    <form action="/carrito/add" method="post" value="">
+                    <form id="add-to-cart-form">
                         <input type="hidden" id="productValue" name="productValue" value="">
                         <button type="submit" class="button-add-carrito">Agregar al carro <img src="/public/img/product_page_icons/add_to_cart_too.png" alt=""></button>
                     </form>
@@ -93,6 +94,53 @@
             </div>
         </div>
     </section>  
-    <div id="footer"></div>
+    <footer id="footer"></footer>
+
+
+<script>
+    // Obtener el formulario
+    const form = document.getElementById('add-to-cart-form');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Evitar el envío tradicional del formulario
+
+        const productValue = document.getElementById('productValue').value;
+
+        // Realizar una solicitud AJAX para agregar al carrito
+        fetch('/carrito/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productValue }) // Enviar los datos del formulario
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Unauthorized');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Si la respuesta es exitosa
+            console.log(data);  // Puedes manejar la respuesta aquí si es necesario
+        })
+        .catch(error => {
+            if (error.message === 'Unauthorized') {
+                // Mostrar SweetAlert cuando no esté autenticado
+                Swal.fire({
+                    title: '¡Necesitas iniciar sesión!',
+                    text: 'Inicia sesión para agregar productos al carrito.',
+                    icon: 'warning',
+                    confirmButtonText: 'Iniciar sesión',
+                    allowOutsideClick: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirigir a la página de login
+                        window.location.href = '/html/login.html'; // Cambia la URL según tu ruta de login
+                    }
+                });
+            } 
+        });
+    });
+</script>
 </body>
 </html>

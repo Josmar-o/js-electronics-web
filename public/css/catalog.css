@@ -84,7 +84,7 @@ main {
     transition: transform 0.2s;
     margin: 10px;
     position: relative; 
-    height: 270px;
+    height: 300px;
     cursor: pointer;
 
 }
@@ -94,8 +94,8 @@ main {
 }
 
 .catalog-item img {
-    width: 55%;
-    height: auto;
+    width: auto;
+    height: 45%;
     filter: drop-shadow(0 0 8px var(--verde));
 }
 

@@ -21,7 +21,7 @@ span{
     font-weight: 600;
     font-size: 16px;
 }
-p{
+p, label{
 	font-family: var(--font-sec);
 	background-color: transparent;
     color: var(--azul-oscuro);
@@ -63,18 +63,19 @@ h1, h2, h3,h4, button{
   .container form input[type="text"],
   .container form input[type="number"],
   .container form input[type="file"],
-  .container form textarea {
+  .container form select,
+  .container form textarea,
+  .container form input[type="date"] {
     width: 100%;
     padding: 12px;
     margin: 8px 0 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
+    background-color: #f9f9f9;
   }
-  
-  .container form textarea {
-    resize: vertical;
-  }
+
+ 
   
   .container form button[type="submit"] {
     background-color: #4CAF50;

@@ -87,7 +87,7 @@ function isAuthenticated(req, res, next) {
     if (req.session.user) {
         next();
     } else {
-        res.status(401).json({ message: 'Unauthorized' });
+        res.status(401).json({ message: 'No Autorizado' });
     }
 }
 
@@ -301,24 +301,6 @@ app.get('/productos', (req, res) => {
       res.json(results);
     });
 });
-
-//fetch news from db
-app.get('/news', (req, res) => {
-    const sql = 'select * from blog';
-    
-    db.query(sql, (err, results) => {
-      if (err) throw err;
-      res.json(results);
-    });
-});
-
-// Serve your HTML file (for the catalog page)
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/html/home.html')); // Make sure you have the HTML file
-});
-
-
-
 // Route to fetch a single product's details by ID
 app.get('/productos/:id', (req, res) => {
     const productId = req.params.id;
@@ -340,6 +322,25 @@ app.get('/productos/:id', (req, res) => {
         }
     });
 });
+
+//fetch news from db
+app.get('/news', (req, res) => {
+    const sql = 'select * from blog';
+    
+    db.query(sql, (err, results) => {
+      if (err) throw err;
+      res.json(results);
+    });
+});
+
+// Serve your HTML file (for the catalog page)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/html/home.html')); // Make sure you have the HTML file
+});
+
+
+
+
 
 // Route to get the total number of products
 app.get('/count-products', (req, res) => {
@@ -377,22 +378,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Middleware for authentication
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        next();
-    } else {
-        res.status(401).json({ message: 'Unauthorized' });
-    }
-}
-
 // Route to display product form
 app.get('/add-product', (req, res) => {
     res.sendFile(path.join(__dirname, 'product_upload.html'));
 });
 
 // Handle the form submission to add product
-app.post('/add-product', upload.array('imagenes', 5), (req, res) => {
+app.post('/add-product', upload.array('imagenes', 5), isAuthenticated,(req, res) => {
     const { nombre, descripcion, procesador, ram, rom, tipo_almacenamiento, precio, stock, tamano_pantalla, resolucion_pantalla, sistema_operativo, tarjeta_grafica, peso, dimensiones, garantia_meses, categoria, marca, fecha_lanzamiento } = req.body;
 
     // Validate the input fields
@@ -436,7 +428,7 @@ app.post('/add-product', upload.array('imagenes', 5), (req, res) => {
             req.files.forEach(file => {
                 const imageData = {
                     producto_id: productId,
-                    imagen_url: '/img_laptops/' + file.filename
+                    imagen_url: '/img_productos/' + file.filename
                 };
                 db.query('INSERT INTO producto_imagenes SET ?', imageData, (err) => {
                     if (err) console.log('Error inserting product images', err);
@@ -444,7 +436,8 @@ app.post('/add-product', upload.array('imagenes', 5), (req, res) => {
             });
         }
 
-        res.status(200).json({ message: 'Product added successfully!' });
+        res.status(200).json({ success: true });
+
     });
 });
 
