@@ -80,6 +80,10 @@ hr {
 	color: var(--blanco-fondo);
 	font-weight: 800;
 }
+.news-legend button a{
+	text-decoration: none;
+	color: var(--blanco-fondo);
+}
 .news-square{
 	background-color: #2891FF;
 	width: 30%;

@@ -37,8 +37,7 @@ h1, h2, h3,h4, button{
 
 
 main {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
+    margin: 0 100px;
     gap: 20px;
     padding: 30px 20px;
 }
@@ -66,12 +65,7 @@ main {
     font-weight: 700;
 }
 
-.news-aside {
-    background-color: #D9F203;
-    padding: 20px; /* Padding inside aside */
-    border-radius: 8px;
-    min-height: 300px;
-}
+
 
 .news-link {
     text-decoration: none;

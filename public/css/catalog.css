@@ -19,7 +19,7 @@ p{
 	font-family: var(--font-sec);
 	background-color: transparent;
 }
-h1, h2, h3, button, span{
+h1, h2, h3, button, span, label{
 	font-family: var(--font-main);
 	background-color: transparent ;
 }
@@ -27,7 +27,7 @@ h1, h2, h3, button, span{
 .catalog-item hr  {
     border: none;
     height: 1.5px;
-    background-color: #071952;
+    background-color: var(--azul-oscuro);
     border-radius: 10px; 
     width: auto;
     margin: 12px -15px;
@@ -40,6 +40,18 @@ main {
     grid-template-columns: 1fr 3fr;
     gap: 20px;
     padding: 20px;
+}
+
+/* Contenedor del catálogo: ajustar automáticamente el número de columnas */
+.catalog{
+    width: 100%;
+}
+.products {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* 3 columnas */
+    gap: 20px; /* Espacio entre los productos */
+    margin: 15px;
+
 }
 
 .filters {
@@ -60,20 +72,25 @@ main {
     color: #333; /* Color del texto */
 }
 
-/* Asegúrate de que el h3 se muestre como bloque fuera del grid */
+
 .search-results {
-    display: block; /* Se asegura que el h3 se trate como bloque */
+    display: block;
 }
-.catalog {
-   
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px; /* Espacio entre los artículos */
-    margin: 15px;
+
+
+.catalog h2, .catalog h3, .filters h2, .filters span, .catalog p{
+    margin: 10px 0;
+    color: var(--azul-oscuro);
 }
+.filters label{
+    font-weight: bold;
+    color: var(--azul-oscuro);
+}
+
 .catalog-item-link {
     text-decoration: none;
     color: inherit;
+    order: 1;
 }
 .catalog-item {
     background: white;
@@ -142,8 +159,84 @@ main {
     position: absolute; 
     top: 10px;          
     right: 10px;        
+    order: 0;
 }
 
 .add-to-cart:hover {
     background-image: url(/public/img/catalogo_icons/add_to_cart_hovered_icon.svg);
+}
+
+
+.filters {
+    background-color: var(--celeste);
+    
+}
+
+.filters hr{
+    border: none;
+    height: 1.5px;
+    background-color: var(--azul-oscuro);
+    border-radius: 10px; 
+    width: auto;
+
+}
+#filters-form{
+    margin-top: 20px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.filters input, .filters select, .filters button {
+    padding: 5px;
+    font-size: 14px;
+}
+
+.filters button {
+    background-color: var(--azul-claro);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    border: var(--azul-oscuro)2px solid;
+}
+
+/* Contenedor del slider */
+#price-slider {
+    margin: 10px auto;
+    width: 90%;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+    position: relative;
+}
+
+/* Estilo para los valores de precio */
+#price-slider .noUi-handle {
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Línea conectada entre los puntos */
+#price-slider .noUi-connect {
+    background-color: #007bff;
+}
+
+/* Texto de precios */
+#price-slider + div {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+#price-slider + div span {
+    display: inline-block;
+    margin: 0 15px;
+    font-weight: bold;
+    font-size: 16px;
 }

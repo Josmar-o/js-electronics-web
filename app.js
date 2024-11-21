@@ -292,15 +292,78 @@ app.use('/img_laptops', express.static(path.join(__dirname, 'img_laptops') , { i
 //
 app.use('/html', express.static(path.join(__dirname, 'html'))); 
 
-// Fetch products from the database
+
 app.get('/productos', (req, res) => {
-    const sql = 'SELECT *, (SELECT producto_imagenes.imagen_url FROM producto_imagenes WHERE producto_imagenes.producto_id = productos.id LIMIT 1) AS imagen_url FROM productos;';
-    
-    db.query(sql, (err, results) => {
-      if (err) throw err;
-      res.json(results);
+    const { search, minPrice, maxPrice, ram, procesador, marca, tipo_almacenamiento, categoria, rom, tamano_pantalla, resolucion_pantalla, sistema_operativo } = req.query;
+    let sql = `
+        SELECT *, 
+        (SELECT producto_imagenes.imagen_url FROM producto_imagenes WHERE producto_imagenes.producto_id = productos.id LIMIT 1) AS imagen_url 
+        FROM productos 
+        WHERE 1=1
+    `;
+
+    const params = [];
+
+    // Agregar filtros dinámicamente
+    if (search) {
+        sql += ` AND (productos.nombre LIKE ? OR productos.descripcion LIKE ?)`;
+        const searchTerm = `%${search}%`;
+        params.push(searchTerm, searchTerm);
+    }
+    if (minPrice) {
+        sql += ` AND productos.precio >= ?`;
+        params.push(minPrice);
+    }
+    if (maxPrice) {
+        sql += ` AND productos.precio <= ?`;
+        params.push(maxPrice);
+    }
+    if (ram) {
+        sql += ` AND productos.ram = ?`;
+        params.push(ram);
+    }
+    if (procesador) {
+        sql += ` AND productos.procesador LIKE ?`;
+        params.push(`%${procesador}%`);
+    }
+    if (marca) {
+        sql += ` AND productos.marca = ?`;
+        params.push(marca);
+    }
+    if (tipo_almacenamiento) {
+        sql += ` AND productos.tipo_almacenamiento = ?`;
+        params.push(tipo_almacenamiento);
+    }
+    if (categoria) {
+        sql += ` AND productos.categoria = ?`;
+        params.push(categoria);
+    }
+    if (rom) {
+        sql += ` AND productos.rom = ?`;
+        params.push(rom);
+    }
+    if (tamano_pantalla) {
+        sql += ` AND productos.tamano_pantalla = ?`;
+        params.push(tamano_pantalla);
+    }
+    if (resolucion_pantalla) {
+        sql += ` AND productos.resolucion_pantalla = ?`;
+        params.push(resolucion_pantalla);
+    }
+    if (sistema_operativo) {
+        sql += ` AND productos.sistema_operativo = ?`;
+        params.push(sistema_operativo);
+    }
+
+    db.query(sql, params, (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(results);
     });
 });
+
 // Route to fetch a single product's details by ID
 app.get('/productos/:id', (req, res) => {
     const productId = req.params.id;
@@ -338,22 +401,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/html/home.html')); // Make sure you have the HTML file
 });
 
-
-
-
-
-// Route to get the total number of products
-app.get('/count-products', (req, res) => {
-    const sql = 'SELECT COUNT(*) AS total FROM productos;'; // Query to count total products
-
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Database error' });
-        }
-        res.json(result[0].total); // Send back the total count
-    });
-});
 
 
 app.get('/get-session-info', (req, res) => {

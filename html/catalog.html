@@ -8,6 +8,10 @@
     <script src="/public/js/cargarCatalogo.js"></script>
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/catalog.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+    <script src="/public/js/sliderCatalogo.js"></script>
+
    
 </head>
 <body>
@@ -16,27 +20,122 @@
     <main>
         <aside class="filters">
             <h2>Filtros de Búsqueda</h2>
-            
-            <form>
-                <label for="category">Categoría:</label>
-                <select id="category" name="category">
-                    <option value="all">Todas</option>
-                    <option value="category1">Categoría 1</option>
-                    <option value="category2">Categoría 2</option>
+             
+            <form id="filters-form">
+                <input type="text" id="search-input" placeholder="Buscar productos" name="search">
+                <hr>
+                
+                <div id="price-slider"></div>
+                <div>
+                    <span>Precio Mínimo: $<span id="min-price">0</span></span>
+                    <span>Precio Máximo: $<span id="max-price">3000</span></span>
+                </div>
+                <!-- Inputs ocultos para los valores -->
+                <input type="hidden" name="min_price" id="min-price-input" value="0">
+                <input type="hidden" name="max_price" id="max-price-input" value="3000">
+                <hr>
+                <label for="marca">Marca</label>
+                <select id="marca" name="marca">
+                    <option value="">Cualquier Marca</option>
+                    <option value="Lenovo">Lenovo</option>
+                    <option value="Asus">Asus</option>
+                    <option value="HP">HP</option>
+                    <option value="Toshiba">Toshiba</option>
+                    <option value="Dell">Dell</option>
+                    <option value="Acer">Acer</option>
+                    <option value="Apple">Apple</option>
+                    <option value="Microsoft">Microsoft</option>
+                    <option value="Razer">Razer</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="MSI">MSI</option>
+                    <option value="Gigabyte">Gigabyte</option>
+                    <option value="Alienware">Alienware</option>
+                    <option value="Huawei">Huawei</option>
+                    <option value="LG">LG</option>
+                    <option value="Vaio">Vaio</option>
+                    <option value="Google">Google</option>
                 </select>
-               
+                <hr>
+                <label for="tipo_almacenamiento">Tipo de Almacenamiento</label>
+                <select id="tipo_almacenamiento" name="tipo_almacenamiento">
+                    <option value="">Cualquier Tipo</option>
+                    <option value="SSD">SSD</option>
+                    <option value="HDD">HDD</option>
+                </select>
+                <hr>
+                <label for="ram">RAM</label>
+                <select id="ram" name="ram">
+                    <option value="">Cualquier RAM</option>
+                    <option value="4GB">4GB</option>
+                    <option value="8GB">8GB</option>
+                    <option value="16GB">16GB</option>
+                    <option value="32GB">32GB</option>
+                    <option value="64GB">64GB</option>
+                </select>
+                <hr>
+                <label for="procesador">Procesador</label>
+                <input type="text" id="procesador" placeholder="Procesador" name="procesador">
+                <hr>
+                <label for="categoria">Categoría</label>
+                <select id="categoria" name="categoria">
+                    <option value="">Cualquier Categoría</option>
+                    <option value="oficina">Oficina</option>
+                    <option value="gamer">Gamer</option>
+                    <option value="trabajo">Trabajo</option>
+                    <option value="estudio">Estudio</option>
+                </select>
+                <hr>
+                <label for="rom">Almacenamiento</label>
+                <select id="rom" name="rom">
+                    <option value="">Cualquier Almacenamiento</option>
+                    <option value="128GB">128GB</option>
+                    <option value="180GB">180GB</option>
+                    <option value="256GB">256GB</option>
+                    <option value="512GB">512GB</option>
+                    <option value="1TB">1TB</option>
+                    <option value="2TB">2TB</option>
+                    <option value="4TB">4TB</option>
+                </select>
+                <hr>
+                <label for="tamano_pantalla">Tamaño de Pantalla</label>
+                <select id="tamano_pantalla" name="tamano_pantalla">
+                    <option value="">Cualquier Tamaño</option>
+                    <option value="12.5">12.5"</option>
+                    <option value="14">14"</option>
+                    <option value="15.6">15.6"</option>
+                    <option value="17.3">17.3"</option>
+                </select>
+                <hr>
+                <label for="resolucion_pantalla">Resolución de Pantalla</label>
+                <select id="resolucion_pantalla" name="resolucion_pantalla">
+                    <option value="">Cualquiera Resolución</option>
+                    <option value="1080x1920">1080x1920 (FHD)</option>
+                    <option value="1366x768">1366x768 (HD)</option>
+                    <option value="2560x1440">2560x1440 (QHD)</option>
+                    <option value="3840x2160">3840x2160 (4K)</option>
+                </select>
+                <hr>
+                <label for="sistema_operativo">Sistema Operativo</label>
+                <select id="sistema_operativo" name="sistema_operativo">
+                    <option value="">Cualquier Sistema Operativo</option>
+                    <option value="W11">Windows 11 Pro</option>
+                    <option value="W10">Windows 10 Pro</option>
+                    <option value="Ubuntu">Ubuntu</option>
+                    <option value="Fedora">Fedora</option>
+                    <option value="Debian">Debian</option>
+                </select>
+                <button type="submit">Filtrar</button>
             </form>
         </aside>
     
         <section class="catalog">
             <h3 id="total-products" class="search-results">Resultados de Búsqueda:</h3>
+            <div id="products" class="products">
+                <!-- Aquí se cargarán los productos -->
         </section>
         
     </main>
     <div id="footer"></div>
     
-
-    
-
 </body>
 </html>

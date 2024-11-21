@@ -40,6 +40,7 @@
         <option value="512GB">512GB</option>
         <option value="1TB">1TB</option>
         <option value="2TB">2TB</option>
+        <option value="4TB">4TB</option>
     </select>
 
     <label for="tipo_almacenamiento">Tipo de Almacenamiento</label>
@@ -72,7 +73,13 @@
 
 
     <label for="sistema_operativo">Sistema Operativo</label>
-    <input type="text" id="sistema_operativo" name="sistema_operativo" required>
+    <select id="sistema_operativo" name="sistema_operativo" required>
+        <option value="W11">Windows 11 Pro</option>
+        <option value="W10">Windows 10 Pro</option>
+        <option value="Ubuntu">Ubuntu</option>
+        <option value="Fedora">Fedora</option>
+        <option value="Debian">Debian</option>
+    </select>
 
     <label for="tarjeta_grafica">Tarjeta Gráfica</label>
     <input type="text" id="tarjeta_grafica" name="tarjeta_grafica" required>

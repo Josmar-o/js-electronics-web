@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!pedido_id) {
         console.error("No se encontró un pedido_id en la URL.");
-        document.body.innerHTML = "<p>Error: No se pudo cargar la información del pedido.</p>";
+        document.body.innerHTML = "<p>Error: No se pudo cargar la información del pedido.URL</p>";
         return;
     }
 
@@ -36,6 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => {
             console.error("Error al cargar los datos del pedido:", error);
-            document.body.innerHTML = "<p>Error: No se pudo cargar la información del pedido.</p>";
+            // Mostrar SweetAlert con el mensaje de error
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'No se pudo cargar la información del pedido.',
+            }).then(() => {
+                window.location.href = '/html/home.html';
+            });
+           
         });
 });
