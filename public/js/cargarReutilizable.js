@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('/public/reutilizable/footer.html')
         .then(response => response.text())
         .then(data => {
-            document.ge4tElementById('footer').innerHTML = data;
+            document.getElementById('footer').innerHTML = data;
         });
         
 

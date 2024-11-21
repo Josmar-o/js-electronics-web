@@ -5,6 +5,7 @@ const session = require('express-session'); // Import express-session
 const bcrypt = require('bcrypt'); // Install bcrypt for password hashing
 const validator = require('validator');
 const multer = require('multer');
+const Stripe = require('stripe');
 
 
 const app = express();
@@ -519,8 +520,11 @@ app.get('/api/pedido/confirmacion', isAuthenticated, (req, res) => {
     });
 });
 
-const Stripe = require('stripe');
-const stripe = Stripe('sk_test_51QM4N8KYJOBJ3mZyzcZ4wx5x4SRuz3w5YmRpsAP7n3S97Ye77LGziNuiRmZ2gt2PrWrjC3W3rpERltxj7BrOqZwW00zkKGjDQw'); // Reemplaza con tu clave secreta de Stripe
+require('dotenv').config();
+app.get('/config', (req, res) => {
+    res.json({ stripePublicKey: process.env.STRIPE_PUBLIC_KEY });
+});
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // Reemplaza con tu clave secreta de Stripe
 
 app.post('/procesar-pago', isAuthenticated, async (req, res) => {
     const usuario_id = req.session.user.id;

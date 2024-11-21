@@ -1,4 +1,3 @@
-const stripe = Stripe('pk_test_51QM4N8KYJOBJ3mZy5D59393kCGvjITVss0wY1bS7a2961gaQHqLtTu1yB0lLJPN25rI2W3dlIjtnoj4aNBC6OAVt00GlPmsXWY'); // Reemplaza con tu clave pública
 const elements = stripe.elements();
   const card = elements.create('card');
   card.mount('#card-element');
