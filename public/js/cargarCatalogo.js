@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     });
                 }
+                document.getElementById('header').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
 
                 document.getElementById('total-products').textContent = `Total de productos: ${data.length}`;
             })
