@@ -90,9 +90,9 @@ main {
 }
 
 .news-item-img img {
-    height: auto; 
+    min-height: 90%; 
     max-height: 90%;          
-    width: auto;                    
+    min-width: 90%;                    
     max-width: 90%;              
     object-fit: cover;             
     object-position: center;      

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Agregar producto</title>
     <script src="/public/js/cargarReutilizable.js"></script>
     <link rel="stylesheet" href="/public/css/comun.css">
-    <link rel="stylesheet" href="/public/css/dashboard.css">
+    <link rel="stylesheet" href="/public/css/agregrarProducto.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 </head>
 <body>
@@ -15,13 +15,14 @@
         <h1>Agregar Producto</h1>
 <form  enctype="multipart/form-data">
     <label for="nombre">Nombre del Producto</label>
-    <input type="text" id="nombre" name="nombre" required>
+    <input type="text" id="nombre" name="nombre" placeholder="Lenovo ThinkPad X220 Tablet " required>
 
     <label for="descripcion">Descripción</label>
-    <textarea id="descripcion" name="descripcion" required></textarea>
+    <textarea maxlength="660" id="descripcion" name="descripcion" placeholder="Maximo 660 caracteres" required></textarea>
+    <span id="descripcion-contador">0/660</span>
 
     <label for="procesador">Procesador</label>
-    <input type="text" id="procesador" name="procesador" required>
+    <input type="text" id="procesador" name="procesador" placeholder="i7-2620M, i5-1135G7" required>
 
     <label for="ram">RAM</label>
     <select id="ram" name="ram" required>
@@ -82,16 +83,23 @@
     </select>
 
     <label for="tarjeta_grafica">Tarjeta Gráfica</label>
-    <input type="text" id="tarjeta_grafica" name="tarjeta_grafica" required>
+    <input type="text" id="tarjeta_grafica" name="tarjeta_grafica" placeholder="Nvidia MX150, Nvidia GTX 1650" required>
 
-    <label for="peso">Peso</label>
-    <input type="number" step="0.01" id="peso" name="peso" required>
+    <label for="peso">Peso</label> 
+    <input type="number" step="0.01" id="peso" name="peso"  placeholder="En kg" required>
 
     <label for="dimensiones">Dimensiones</label>
-    <input type="text" id="dimensiones" name="dimensiones" required>
+    <input type="text" id="dimensiones" name="dimensiones" placeholder="32.4 x 22.5 x 1.8 cm" required>
 
     <label for="garantia_meses">Garantía (Meses)</label>
-    <input type="text" id="garantia_meses" name="garantia_meses" required>
+    <select id="garantia_meses" name="garantia_meses" required>
+        <option value="6">6 meses</option>
+        <option value="12">12 meses</option>
+        <option value="18">18 meses</option>
+        <option value="24">24 meses</option>
+        <option value="36">36 meses</option>
+
+    </select>
 
     <label for="categoria">Categoría</label>
     <select id="categoria" name="categoria" required>
@@ -126,56 +134,80 @@
     <label for="fecha_lanzamiento">Fecha de Lanzamiento</label>
     <input type="date" id="fecha_lanzamiento" name="fecha_lanzamiento" required>
 
-    <label for="imagenes">Imágenes del Producto</label>
-    <input type="file" id="imagenes" name="imagenes" multiple required>
+    <label for="imagenes_url">URLs de Imágenes (separadas por comas)</label>
+    <textarea id="imagenes_url" name="imagenes_url" required placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"></textarea>
 
     <button type="submit">Agregar Producto</button>
 </form>
 
     </div>
     <div id="footer"></div>    
+    <script>
+        const descripcion = document.getElementById('descripcion');
+        const contador = document.getElementById('descripcion-contador');
+    
+        descripcion.addEventListener('input', () => {
+            contador.textContent = `${descripcion.value.length}/660`;
+        });
+    </script>
 
     <script>
-   const form = document.querySelector('form');
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault(); // Evitar envío por defecto del formulario
-    const formData = new FormData(form);
-
-    fetch('/add-product', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    title: '¡Éxito!',
-                    text: 'Producto agregado correctamente.',
-                    icon: 'success',
-                    confirmButtonText: 'Ir al Dashboard'
-                }).then(() => {
-                    window.location.href = '/html/admin/dashboard.html'; 
-                });
-            } else {
+        const form = document.querySelector('form');
+    
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Evitar el envío por defecto del formulario
+            const formData = new FormData(form);
+    
+            // Validar URL de las imágenes
+            const imagenesUrl = formData.get('imagenes_url');
+            const urls = imagenesUrl.split(',').map(url => url.trim());
+            const urlRegex = /^(https?:\/\/)[^\s$.?#].[^\s]*$/;
+    
+            if (!urls.every(url => urlRegex.test(url))) {
                 Swal.fire({
                     title: 'Error',
-                    text: data.message || 'Hubo un problema al agregar el producto.',
+                    text: 'Asegúrate de ingresar URLs válidas.',
                     icon: 'error',
                     confirmButtonText: 'Cerrar'
                 });
+                return;
             }
-        })
-        .catch(() => {
-            Swal.fire({
-                title: 'Error',
-                text: 'No se pudo conectar con el servidor.',
-                icon: 'error',
-                confirmButtonText: 'Cerrar'
-            });
+    
+            // Enviar el formulario al servidor
+            fetch('/add-product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(formData))
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: 'Producto agregado correctamente.',
+                            icon: 'success',
+                            confirmButtonText: 'Ir al Dashboard'
+                        }).then(() => {
+                            window.location.href = '/admin/dashboard.html'; 
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message || 'Hubo un problema al agregar el producto.',
+                            icon: 'error',
+                            confirmButtonText: 'Cerrar'
+                        });
+                    }
+                })
+                .catch(() => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No se pudo conectar con el servidor.',
+                        icon: 'error',
+                        confirmButtonText: 'Cerrar'
+                    });
+                });
         });
-});
-
     </script>
 
 </body>

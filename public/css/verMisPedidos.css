@@ -1,0 +1,83 @@
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+span{
+    font-family: var(--font-sec);
+    background-color: transparent;
+    color: var(--azul-oscuro);
+    font-weight: 600;
+    font-size: 16px;
+}
+p, label{
+	font-family: var(--font-sec);
+	background-color: transparent;
+    color: var(--azul-oscuro);
+    font-size: 16px;
+    
+}
+h1, h2, h3,h4, button{
+	font-family: var(--font-main);
+	background-color: transparent ;
+    color: var(--azul-oscuro);
+}
+
+/* Estilos para la tabla de pedidos */
+main{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+table {
+	width: 90%;
+	border-collapse: collapse;
+	margin: 20px 0;
+	font-family: var(--font-sec);
+	background-color: var(--blanco-fondo);
+}
+
+th, td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid var(--azul-claro);
+}
+
+th {
+	background-color: var(--azul-oscuro);
+	color: white;
+	font-family: var(--font-main);
+}
+.normalRow {
+	background-color: var(--celeste);
+}
+
+.normalRow:hover {
+	background-color: var(--verde);
+}
+
+td {
+	color: var(--azul-oscuro);
+}
+
+thead {
+	position: sticky;
+	top: 0;
+}
+
+.totalRow a{
+	color: var(--azul-oscuro);
+	font-weight: 600;
+	font-size: 16px;
+}

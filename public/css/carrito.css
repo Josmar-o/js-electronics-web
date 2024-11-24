@@ -21,7 +21,7 @@ span{
     font-weight: 600;
     font-size: 16px;
 }
-p{
+p, label{
 	font-family: var(--font-sec);
 	background-color: transparent;
     color: var(--azul-oscuro);
@@ -52,7 +52,7 @@ main {
 
 .cart-section-title, .cart-aside-title {
     display: flex;
-    align-items: center;
+    align-items: center; 
     gap: 10px;
 }
 
@@ -149,4 +149,60 @@ main {
     padding-bottom: 10px;
 }
 
+.increase-quantity, .decrease-quantity {
+    background-color: var(--azul-oscuro);
+    color: var(--blanco-fondo);
+    border: none;
+    border-radius: 100px;
+    padding: 10px;
+    cursor: pointer;
+}
 
+.delete-item{
+    background-image: url(/public/img/order_page_icons/delete_icon.svg);
+    background-size: 40px 40px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
+.pagar{
+    background-color: var(--azul-oscuro);
+    color: var(--blanco-fondo);
+    border: none;
+    border-radius: 100px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#payment-method{
+    width: 100%;
+    padding: 5px;
+    border-radius: 8px;
+    border: 2px solid var(--azul-oscuro);
+    background-color: var(--blanco-fondo);
+    color: var(--azul-oscuro);
+    font-family: var(--font-sec);
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px 0;
+
+}
+
+.cart-aside ul li{
+    list-style: none;
+    padding: 5px;
+    border-bottom: 1px solid var(--azul-oscuro);
+    margin: 5px;
+}
+.cart-aside h2{
+    margin: 10px 0;
+}
+
+.cart-aside p{
+    margin: 10px 10px;
+}

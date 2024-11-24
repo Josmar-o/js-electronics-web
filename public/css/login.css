@@ -58,7 +58,7 @@ input[type="password"] {
     font-size: 1rem;
 }
 
-button {
+#register-form button, #login-form button {
     width: 100%;
     padding: 0.5rem;
     background-color: #007bff;
@@ -68,9 +68,9 @@ button {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s;
-}
+} 
 
-button:hover {
+#register-form button:hover, #login-form button:hover {
     background-color: #0056b3;
 }
 

@@ -1,0 +1,70 @@
+/* Section - Privacy and Terms */
+#privacy-terms {
+    background-color: var(--blanco-fondo);
+    padding: 50px 20px;
+    color: var(--azul-oscuro);
+    font-family: var(--font-sec);
+}
+
+#privacy-terms .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 15px;
+    padding: 40px;
+    background-color: var(--gris);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+#privacy-terms h1 {
+    font-family: var(--font-main);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--azul-oscuro);
+}
+
+#privacy-terms p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+#privacy-terms ol {
+    margin: 20px 0;
+    padding-left: 40px;
+}
+
+#privacy-terms ol li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+#privacy-terms ol li strong {
+    font-weight: bold;
+    color: var(--azul-claro);
+}
+
+#privacy-terms hr {
+    margin: 40px 0;
+    border: none;
+    height: 2px;
+    background-color: var(--azul-oscuro);
+    border-radius: 5px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    #privacy-terms .content-wrapper {
+        padding: 20px;
+    }
+
+    #privacy-terms h1 {
+        font-size: 2rem;
+    }
+
+    #privacy-terms p, #privacy-terms ol li {
+        font-size: 1rem;
+    }
+}

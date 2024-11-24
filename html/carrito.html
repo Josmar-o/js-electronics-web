@@ -8,6 +8,7 @@
     <script src="/public/js/cargarCarrito.js" defer></script>
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/carrito.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 </head>
 <body>
@@ -16,15 +17,16 @@
         <section>
             <div class="cart-section">
                 <div class="cart-section-title">
-                    <img src="/public/img/order_page_icons/my_cart_icon.png" alt=""><h2>MI CARRITO</h2>
+                    <img src="/public/img/order_page_icons/my_cart_icon.svg" alt=""><h2>MI CARRITO</h2>
                 </div>
+                <div id="authMessage"></div>
                 <div class="cart-content" id="cartContent">  
                 </div>
             </div>
         </section>
         <aside>
             <div class="cart-aside">
-                <div class="cart-aside-title"> <img src="/public/img/order_page_icons/my_order_icon.png" alt=""><h2>RESUMEN DE MI ORDEN</h2> </div>
+                <div class="cart-aside-title"> <img src="/public/img/order_page_icons/my_order_icon.svg" alt=""><h2>RESUMEN DE MI ORDEN</h2> </div>
                 <ul id="order-items">
                     <!-- Los productos del carrito se llenarán dinámicamente -->
                 </ul>
@@ -39,8 +41,8 @@
                         <option value="card">Tarjeta de Crédito/Débito</option>
                     </select>
                     <div id="card-element"><!-- Stripe Card Element se renderiza aquí --></div>
-                    <button id="submit">Confirmar y Pagar</button>
-                    <p id="payment-message"></p>
+                    <button class="pagar" id="submit">Confirmar y Pagar</button>
+                    <p id="payment-message"></p> 
                 </form>
             </section>
         </aside>

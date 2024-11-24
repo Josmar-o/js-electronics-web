@@ -17,14 +17,14 @@
         <div class="page-item">
             <div class="item-image">
                 <div class="item-image-select">
-                    <img id="product-image" src="/public/img/image.png" alt="Product Image">
+                    <img id="product-image" src="" alt="Product Image">
                 </div>
                 <hr>        
             </div>
             <div class="item-desc">
                 <div class="item-description">
-                    <h1 id="product-name">Product Name</h1>
-                    <h2 id="product-price" class="price">$0.00</h2>
+                    <h1 id="product-name"></h1>
+                    <h2 id="product-price" class="price"></h2>
                     <h4>INFORMACIÓN DEL PRODUCTO</h4>
                     <div class="scrollable">
                         <ul class="specs-list" id="product-specs">
@@ -32,52 +32,52 @@
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/procesador_icon.svg" alt="Procesador Logo" class="spec-logo">
                                 <span>Procesador</span>
-                                <p class="spec-text" id="spec-procesador">i5 6300u</p>
+                                <p class="spec-text" id="spec-procesador"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/memoria_icon.svg" alt="RAM Logo" class="spec-logo">
                                 <span>RAM</span>
-                                <p class="spec-text" id="spec-ram">8GB</p>
+                                <p class="spec-text" id="spec-ram"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/almacenamiento_icon.svg" alt="Almacenamiento Logo" class="spec-logo">
                                 <span>Almacenamiento</span>
-                                <p class="spec-text" id="spec-almacenamiento">256GB SSD</p>
+                                <p class="spec-text" id="spec-almacenamiento"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/pantalla_icon.svg" alt="Tamaño de pantalla" class="spec-logo">
                                 <span>Tamaño de pantalla</span>
-                                <p class="spec-text" id="spec-tamano">14 pulgadas</p>
+                                <p class="spec-text" id="spec-tamano"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/resolucion_icon.svg" alt="Resolución" class="spec-logo">
                                 <span>Resolución</span>
-                                <p class="spec-text" id="spec-resolucion">1920 x 1080</p>
+                                <p class="spec-text" id="spec-resolucion"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/sistema_operativo_icon.svg" alt="Sistema Operativo" class="spec-logo">
                                 <span>Sistema Operativo</span>
-                                <p class="spec-text" id="spec-sistema">Windows 10 Pro</p>
+                                <p class="spec-text" id="spec-sistema"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/tarjeta_grafica_icon.svg" alt="Tarjeta Gráfica" class="spec-logo">
                                 <span>Tarjeta Gráfica</span>
-                                <p class="spec-text" id="spec-grafica">Integrated Intel Iris Xe</p>
+                                <p class="spec-text" id="spec-grafica"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/peso_icon.svg" alt="Peso" class="spec-logo">
                                 <span>Peso</span>
-                                <p class="spec-text" id="spec-peso">1.5kg</p>
+                                <p class="spec-text" id="spec-peso"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/dimensiones_icon.svg" alt="Dimensiones" class="spec-logo">
                                 <span>Dimensiones</span>
-                                <p class="spec-text" id="spec-dimensiones">32.4 x 22.5 x 1.8 cm</p>
+                                <p class="spec-text" id="spec-dimensiones"></p>
                             </li>
                             <li class="spec-item">
                                 <img src="/public/img/product_page_icons/garantia_icon.svg" alt="Garantía" class="spec-logo">
                                 <span>Garantía</span>
-                                <p class="spec-text" id="spec-garantia">12 Meses</p>
+                                <p class="spec-text" id="spec-garantia"></p>
                             </li>
                         </ul>
                     </div>  
@@ -87,60 +87,21 @@
                 <div class="buttons">
                     <form id="add-to-cart-form">
                         <input type="hidden" id="productValue" name="productValue" value="">
-                        <button type="submit" class="button-add-carrito">Agregar al carro <img src="/public/img/product_page_icons/add_to_cart_too.png" alt=""></button>
+                        <button type="submit" class="button-add-carrito">Agregar al carro <img src="/public/img/product_page_icons/add_to_cart_too.svg" alt=""></button>
                     </form>
-                    <button class="button-consultar">Consultar <img src="/public/img/product_page_icons/consultar_icon.png" alt=""></button>
+                    <a id="link" href="" target="_blank"><button class="button-consultar">Consultar <img src="/public/img/product_page_icons/consultar_icon.svg" alt=""></button></a>
                 </div>
             </div>
+            
+        </div>
+        <div class="item-details">
+            <h2>Descripcion</h2>
+            <p id="product-description">Product Description</p>
         </div>
     </section>  
     <footer id="footer"></footer>
+    <script src="/public/js/respuestaItem.js"></script>
 
 
-<script>
-    // Obtener el formulario
-    const form = document.getElementById('add-to-cart-form');
-    form.addEventListener('submit', function(e) {
-        e.preventDefault(); // Evitar el envío tradicional del formulario
-
-        const productValue = document.getElementById('productValue').value;
-
-        // Realizar una solicitud AJAX para agregar al carrito
-        fetch('/carrito/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ productValue }) // Enviar los datos del formulario
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Unauthorized');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Si la respuesta es exitosa
-            console.log(data);  // Puedes manejar la respuesta aquí si es necesario
-        })
-        .catch(error => {
-            if (error.message === 'Unauthorized') {
-                // Mostrar SweetAlert cuando no esté autenticado
-                Swal.fire({
-                    title: '¡Necesitas iniciar sesión!',
-                    text: 'Inicia sesión para agregar productos al carrito.',
-                    icon: 'warning',
-                    confirmButtonText: 'Iniciar sesión',
-                    allowOutsideClick: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirigir a la página de login
-                        window.location.href = '/html/login.html'; // Cambia la URL según tu ruta de login
-                    }
-                });
-            } 
-        });
-    });
-</script>
 </body>
 </html>

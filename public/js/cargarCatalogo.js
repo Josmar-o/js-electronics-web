@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     const filtersForm = document.getElementById('filters-form');
     const catalogSection = document.querySelector('.products');
-
+    
     // Función para cargar productos
     const loadProducts = (filters = {}) => {
         const queryParams = new URLSearchParams(filters).toString();
         const url = `/productos${queryParams ? `?${queryParams}` : ''}`;
-
+        
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 catalogSection.innerHTML = '';  // Limpiar el catálogo actual
-
+                
                 if (data.length === 0) {
                     catalogSection.innerHTML = '<p>No se encontraron productos.</p>';
                 } else {
@@ -32,57 +32,110 @@ document.addEventListener('DOMContentLoaded', function() {
                         `;
                         catalogSection.innerHTML += productElement;
                     });
-
+                    
                     // Agregar un listener para cada botón de "Agregar al Carrito"
                     document.querySelectorAll('.add-to-cart').forEach(button => {
                         button.addEventListener('click', function(event) {
-                            event.preventDefault(); // Prevenir el comportamiento predeterminado (por ejemplo, el enlace)
-
-                            // Llama a la función para agregar al carrito
+                            event.preventDefault();
                             const productId = this.getAttribute('data-product-id');
                             addToCart(productId);
-
-                            event.stopPropagation(); // Evita que el clic se propague y active el enlace
                         });
                     });
                 }
+                
                 document.getElementById('header').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
-                  });
-
+                });
+                
                 document.getElementById('total-products').textContent = `Total de productos: ${data.length}`;
             })
             .catch(err => console.error('Error fetching products:', err));
     };
-
-    // Función para agregar al carrito
+    
     const addToCart = (productId) => {
         fetch('/carrito/add', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productValue: productId })
+            body: JSON.stringify({ productValue: productId }),
         })
-        .then(response => {
-            if (response.ok) {
-                alert('Producto agregado al carrito');
-                // Opcional: Actualizar el número de productos en el carrito
-            } else {
-                console.error('Error al agregar al carrito');
-            }
-        })
-        .catch(err => console.error('Error:', err));
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error('Unauthorized');
+                    }
+                    return response.json().then((data) => {
+                        throw new Error(data.message || 'Error al procesar la solicitud');
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    // Éxito: Producto agregado o actualizado en el carrito
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'Entendido',
+                        allowOutsideClick: false,
+                    });
+                } else {
+                    // Error relacionado con el stock
+                    Swal.fire({
+                        title: 'Stock insuficiente',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar',
+                        allowOutsideClick: false,
+                    });
+                }
+            })
+            .catch((error) => {
+                if (error.message === 'Unauthorized') {
+                    // Usuario no autenticado
+                    Swal.fire({
+                        title: '¡Inicia sesión!',
+                        text: 'Necesitas iniciar sesión para agregar productos al carrito.',
+                        icon: 'warning',
+                        confirmButtonText: 'Iniciar sesión',
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirigir a la página de inicio de sesión
+                            window.location.href = '/html/login.html'; // Ajustar según tu ruta de login
+                        }
+                    });
+                } else {
+                    // Otros errores
+                    Swal.fire({
+                        title: 'Error',
+                        text: error.message,
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar',
+                        allowOutsideClick: false,
+                    });
+                }
+            });
     };
+    
+    
+    // Cargar productos al inicio con parámetros de búsqueda si existen
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search') || '';  // Si no hay 'search', usar cadena vacía
 
-    // Cargar productos al inicio
-    loadProducts();
-
+    if (searchQuery) {
+        document.getElementById('search-input').value = searchQuery;
+    }
+    
+    loadProducts({ search: searchQuery });
+    
     // Manejar el envío del formulario de filtros
     filtersForm.addEventListener('submit', function(event) {
         event.preventDefault();
-
+        
         const filters = {
             search: document.getElementById('search-input').value,
             minPrice: document.getElementById('min-price-input').value,

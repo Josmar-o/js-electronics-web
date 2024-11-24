@@ -1,0 +1,102 @@
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+span{
+    font-family: var(--font-sec);
+    background-color: transparent;
+    color: var(--azul-oscuro);
+    font-weight: 600;
+    font-size: 16px;
+}
+p, label{
+	font-family: var(--font-sec);
+	background-color: transparent;
+    color: var(--azul-oscuro);
+    font-size: 16px;
+    
+}
+h1, h2, h3,h4, button{
+	font-family: var(--font-main);
+	background-color: transparent ;
+    color: var(--azul-oscuro);
+}
+.container-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--blanco-fondo);
+}
+
+.pedidos-title{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+#pedidos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 50%;
+}
+
+.pedido button{
+    background-color: var(--azul-claro);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.estado-select{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+}
+
+.pedido {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.usuario-info, .pedido-info {
+    margin-bottom: 10px;
+}
+
+.productos {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.productos li {
+    font-family: var(--font-sec);
+    font-size: .9em;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    color: var(--azul-oscuro);
+}
+
+.productos li:last-child {
+    border-bottom: none;
+}

@@ -1,64 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS-electronics</title>
+    <title>JS Electronics | Home</title>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="/public/js/cargarReutilizable.js"></script>
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/home.css">
-    
-  
-      
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
-  <div id="header"></div>
+    <div id="header"></div>
     <main>
+        <!-- CAROUSEL -->
         <section>
-            <div id="carouselExampleIndicators" class="carousel slide">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="/public/img/image.png" class="d-block w-80" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="/public/img/image.png" class="d-block w-80" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="/public/img/image.png" class="d-block w-80" alt="...">
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-        </section>
-        <article>
-            <div id="news">
-                <div class="news-legend">
-                    <h1>LO ULTIMO</h1>
-                    <p>¡Entérate de más noticias como éstas aquí!</p>
-                    <button><a href="/html/blog.html">Blog de Noticias</a></button>
-                </div>
-                <div class="news-square"></div>
-                <div class="news-square special"></div>
+          <div id="carouselExampleIndicators" class="carousel slide">
+            <!-- Indicadores -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-        </article>
-        <hr>
+    
+            <!-- Contenedor de las imágenes -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/public/img/landing_page_icons/laptops-img.png" class="d-block w-100 carousel-img" alt="Imagen 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/img/landing_page_icons/gaming-laptops.png" class="d-block w-100 carousel-img" alt="Imagen 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/img/landing_page_icons/laptops-lot.png" class="d-block w-100 carousel-img" alt="Imagen 3">
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </section>
         
+        <!-- NEWS -->
+        <article>
+          <div id="news" class="container mt-5">
+              <div class="row align-items-center">
+
+                  <!-- Encabezado y Botón -->
+                  <div class="col-md-4 text-center mb-4">
+                      <h1><strong>¡Lo Último!</strong></h1><br>
+                      <p>Descubre consejos prácticos y tendencias tecnológicas que transformarán tu experiencia digital. 
+                        ¡Explora más y mantente actualizado!</p><br>
+
+                      <button class="btn btn-primary">
+                        <a href="/html/blog.html" class="text-white text-decoration-none">Blog de Noticias</a>
+                      </button>
+                  </div>
+      
+                  <!-- Card 1 -->
+                  <div class="col-md-4">
+                      <a href="/html/blog.html#news-item-1">
+                        <div class="card mb-3">
+                          <img src="/public/img/landing_page_icons/articulo-1.png" class="card-img-top" alt="Artículo 1">
+
+                          <div class="card-body">
+                              <h5 class="card-title">Cómo elegir la mejor laptop para ti</h5>
+                              <p class="card-text">Descubre consejos útiles para seleccionar la laptop ideal según tus necesidades y presupuesto.</p>
+
+                          </div>
+                      </div>
+                      </a>
+                  </div>
+                  
+                  <!-- Card 2 -->
+                  <div class="col-md-4">
+                      <a href="/html/blog.html#news-item-2">
+                        <div class="card mb-3 second-card">
+                          <img src="/public/img/landing_page_icons/articulo-2.png" class="card-img-top" alt="Artículo 2">
+
+                          <div class="card-body">
+                              <h5 class="card-title">Cómo sacarle provecho a tu laptop</h5>
+                              <p class="card-text">Aprende a optimizar el rendimiento de tu laptop con estos tips fáciles y prácticos.</p>
+                          </div>
+                      </div>
+                      </a>
+                  </div>
+              </div>
+          </div>
+        </article>     
+  
+        <hr>
+
+        <!-- ABOUT US -->
+        <section id="company-info">
+          <div class="company-title">
+            <h1><strong>¡Sobre Nosotros!</strong></h1>
+          </div>
+
+          <div class="company-block">
+            <div class="block-title">
+              <h2>Nuestra Historia</h2>
+            </div>
+
+            <div class="block-text">
+              <p>En julio de 2023, nació <strong>JS Electronics PTY</strong> con un propósito claro: ofrecer <strong>laptops de alta calidad a
+                precios accesibles</strong>, dando respuesta a la creciente necesidad de equipos de trabajo eficaces y económicos. <br><br>
+                En tan solo un año, hemos logrado consolidarnos como una empresa comprometida con la <strong>excelencia</strong>.
+                Cada laptop que ofrecemos ha sido cuidadosamente seleccionada y mejorada para asegurar un rendimiento excepcional,
+                permitiendo que nuestros clientes cuenten con equipos que impulsan su productividad sin comprometer su presupuesto.
+              </p>
+            </div>
+          </div>
+        
+          <div class="company-block">
+            <div class="block-title odd">
+              <h2>Nuestra Misión</h2>
+            </div>
+
+            <div class="block-text odd">
+              <p>En <strong>JS Electronics PTY</strong>, nuestra misión es simple pero poderosa: <strong>democratizar el acceso a la tecnología</strong>.
+                Queremos que cada cliente, sin importar su presupuesto, tenga la oportunidad de acceder a un equipo confiable y con un rendimiento superior.
+                No solo vendemos laptops, vendemos <strong>experiencias</strong>. Nuestra misión es proporcionar equipos que marquen la diferencia en el trabajo,
+                el estudio y el día a día, garantizando siempre la mejor relación entre costo y beneficio.
+              </p>
+            </div>
+          </div>
+        
+          <div class="company-block">
+            <div class="block-title">
+              <h2>Nuestra Visión</h2>
+            </div>
+
+            <div class="block-text">
+              <p>Miramos hacia el futuro con un compromiso claro: ser el <strong>proveedor líder</strong> en el mercado de laptops accesibles,
+                reconocidos por nuestra calidad y capacidad de adaptación a las necesidades de cada cliente. Queremos ser el puente entre el
+                deseo de tecnología avanzada y la posibilidad de hacerlo realidad, ofreciendo productos que no solo cumplan expectativas,
+                sino que las superen. En cada laptop, buscamos no solo <strong>rendimiento</strong>, sino también <strong>confianza</strong> y <strong>satisfacción</strong>.
+              </p>
+            </div>
+          </div>
+        </section>
+        
+        <hr>
+
+        <!-- WHY US? -->
+        <section id="features" class="container text-center mt-5">
+          <h1 class="section-title mb-5">¿Por qué Elegirnos?</h1>
+      
+          <div class="row mt-4">
+              <div class="col-md-4">
+                  <div class="card feature-card">
+                      <img src="/public/img/landing_page_icons/my_order_icon.svg" class="card-img-top" alt="Envío gratis">
+                      <div class="card-body">
+                          <h5 class="card-title">Garantía</h5>
+                          <p class="card-text">¡Te tenemos cubierto! Ofrecemos hasta 12 meses de garantía en nuestros productos.</p>
+                      </div>
+                  </div>
+              </div>
+      
+              <div class="col-md-4">
+                  <div class="card feature-card">
+                      <img src="/public/img/landing_page_icons/for_you_icon.svg" class="card-img-top" alt="Alta calidad">
+                      <div class="card-body">
+                          <h5 class="card-title">Alta Calidad</h5>
+                          <p class="card-text">Ofrecemos equipos con alto rendimiento, ideales para tus necesidades diarias.</p>
+                      </div>
+                  </div>
+              </div>
+      
+              <div class="col-md-4">
+                  <div class="card feature-card">
+                      <img src="/public/img/landing_page_icons/support_icon.svg" class="card-img-top" alt="Soporte técnico">
+                      <div class="card-body">
+                          <h5 class="card-title">Soporte Técnico</h5>
+                          <p class="card-text">Nuestro equipo de soporte está listo para ayudarte con cualquier inconveniente.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </section>
+
+        <hr>
+
+        <!-- REVIEWS -->
+        <section id="reviews" class="container text-center mt-5">
+          <h2 class="review-title mb-5">Opiniones de Nuestros Clientes</h2>
+          <div class="row mt-4">
+      
+              <!-- Reseña 1 -->
+              <div class="col-md-4">
+                  <div class="review-card">
+                      <div class="review-icon">
+                          <img src="/public/img/landing_page_icons/for_you_icon.svg" alt="Cliente Satisfecho">
+                      </div>
+                      <p class="review-text">"La mejor experiencia de compra online que he tenido. Excelente servicio."</p>
+                      <footer class="blockquote-footer">Juan Pérez</footer>
+                  </div>
+              </div>
+      
+              <!-- Reseña 2 -->
+              <div class="col-md-4">
+                  <div class="review-card">
+                      <div class="review-icon">
+                          <img src="/public/img/landing_page_icons/for_you_icon.svg" alt="Calificación de 5 estrellas">
+                      </div>
+                      <p class="review-text">"Productos de alta calidad y atención al cliente excepcional."</p>
+                      <footer class="blockquote-footer">María Gómez</footer>
+                  </div>
+              </div>
+      
+              <!-- Reseña 3 -->
+              <div class="col-md-4">
+                  <div class="review-card">
+                      <div class="review-icon">
+                          <img src="/public/img/landing_page_icons/for_you_icon.svg" alt="Cliente Feliz">
+                      </div>
+                      <p class="review-text">"Totalmente recomendados, estoy muy feliz con mi compra."</p>
+                      <footer class="blockquote-footer">Carlos López</footer>
+                  </div>
+              </div>
+      
+          </div>
+      </section>      
     </main>
+
     <div id="footer"></div>
     
-    </body>
+  </body>
 </html>

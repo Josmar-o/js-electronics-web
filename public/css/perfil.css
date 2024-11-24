@@ -1,0 +1,58 @@
+/* Aplica a todo */
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--blanco-fondo: #f6f4f3;
+	--verde: #D9F203;
+	--celeste: #B0E4FF;
+	--azul-claro: #2891FF;
+	--azul-oscuro: #071952;
+	--font-main: 'League Spartan', sans-serif; 
+	--font-sec: 'Garet', sans-serif;
+}
+body{
+	background-color: var(--blanco-fondo);
+}
+
+p{
+	font-family: var(--font-sec);
+	background-color: transparent;
+}
+h1, h2, h3	{
+	font-family: var(--font-main);
+	background-color: transparent ;
+}
+button{
+	font-family: var(--font-main);
+}
+
+.perfil-container {
+	max-width: 800px;
+	margin: 10% auto;
+	padding: 20px;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-view {
+	padding: 20px;
+}
+
+.perfil-view h2 {
+	color: var(--azul-oscuro);
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.perfil-view p {
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+.perfil-view p strong {
+	color: var(--azul-claro);
+}

@@ -1,5 +1,4 @@
-
-/* Aplica a todo */
+/* Ajuses Generales*/
 *{
 	margin: 0;
 	padding: 0;
@@ -11,8 +10,15 @@
 	--celeste: #B0E4FF;
 	--azul-claro: #2891FF;
 	--azul-oscuro: #071952;
+	--gris: #ececec;
 	--font-main: 'League Spartan', sans-serif; 
 	--font-sec: 'Garet', sans-serif;
+}
+
+body {
+    font-family: var(--font-sec);
+    background-color: var(--blanco-fondo);
+    color: var(--azul-oscuro);
 }
 
 p{
@@ -26,73 +32,273 @@ h1, h2, h3, button{
 
 hr {
     border: none;
-    height: 3px;
+    height: 2px;
     background-color: #071952;
     border-radius: 10px; 
-    width: 75%;
+    width: 82%;
     margin: 20px auto;
 }
 
 
 
-/* Section
-	Slide */
-	.carousel-item img {
-		height: 400px;
-		object-fit: cover; /* Ensures the image covers the height without distortion */
+/* Section - Carousel */
+	.carousel-img {
+		object-fit: cover;
+		height: 500px;
 	}
 
-/* Article
+	/* Botones */
+	.carousel-control-prev, .carousel-control-next {
+		background-color: var(--gris);
+		border-radius: 50%;
+		width: 50px; height: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 
-	News  */
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 10;
+	}
 
-#news{
-	display: flex;
-    justify-content: center;
-	align-items: center; 
-	height: 250px;
-	width: 100%;
+	.carousel-control-prev {
+		left: 15px;
+	}
+	
+	.carousel-control-next {
+		right: 15px;
+	}
+
+	.carousel-control-prev:hover, .carousel-control-next:hover {
+		background-color: var(--azul-claro);
+	}
+
+	.carousel-control-prev-icon, .carousel-control-next-icon {
+		filter: invert(1); /* Asegura que los íconos sean de color blanco */
+		width: 20px; height: 20px;
+	}
+
+
+
+/* Article - News */
+	#news {
+		background-color: var(--blanco-fondo);
+		padding: 20px;
+	}
+	.col-md-4 a{
+		text-decoration: none;
+	}
+	.col-md-4 img{
+		border-radius: 15px;
+		
+	}
+
+	.card {
+		border: 2px solid var(--azul-oscuro);
+		border-radius: 20px;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.card:hover {
+		transform: translateY(-10px);
+		border: 2px solid var(--azul-claro);
+		box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+	}
+
+	.card-img-top {
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+	}
+
+	.text-white a {
+		color: white;
+	}
+
+	.text-white a:hover {
+		text-decoration: underline;
+	}
+
+	.text-center {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+
+
+/* Section - About Us */
+	#company-info {
+		padding: 50px 0px;
+		max-width: 1250px; /* Limita el ancho total de la sección */
+		margin: 0 auto;
+	}
+
+	.company-title {
+		padding: 0px 80px;
+		margin-bottom: 30px;
+	}
+	
+	.company-block {
+		display: flex;
+		margin-bottom: 30px;
+		border-radius: 10px;
+		width: 100%;
+	}
+	
+	.block-title {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 25px;
+		width: 40%;
+		color: white;
+		font-size: 1.8rem;
+		background-color: var(--azul-oscuro);
+	}
+	
+	.block-title.odd {
+		background-color: var(--azul-claro);
+	}
+	
+	.block-text {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 30px;
+		width: 60%;
+		font-size: 1.1rem;
+		line-height: 1.6;
+		background-color: var(--blanco-fondo);
+		color: var(--azul-oscuro);
+	}
+  
+  
+
+/* Section - Why Us? */
+	#features {
+		background-color: var(--blanco-fondo);
+		padding: 20px 20px;
+	}
+
+	.section-title {
+		font-size: 2.5rem;
+		font-weight: bold;
+		color: var(--azul-oscuro);
+		letter-spacing: 1.5px;
+	}
+
+	.feature-card {
+		border-radius: 15px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		margin-bottom: 30px;
+		background-color: var(--blanco-fondo);
+		cursor: pointer;
+	}
+
+	.feature-card:hover {
+		transform: translateY(-10px);
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+		.card-body {
+			background-color: var(--azul-claro);
+		}
+	}
+
+	.feature-card img {
+		margin: 10px;
+		max-width: 60%;
+		height: 100px;
+
+		align-self: center;
+		object-fit:contain;
+	}
+
+	.feature-card .card-body {
+		padding: 20px;
+		color: white;
+		background-color: var(--azul-oscuro);
+		border-bottom-left-radius: 15px;
+		border-bottom-right-radius: 15px;
+	}
+
+	.card {
+		border: 2px solid var(--azul-oscuro);
+		border-radius: 15px;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+
+
+/* Section - Reviews */
+#reviews {
+    padding: 60px 20px;
+    border-radius: 15px;
+	margin-bottom: 50px;
 }
-.news-legend{
-	width: 30%;
-	height: 200px;
-	display: flex;
-	flex-direction: column;
-    justify-content: center;
-	align-items: center; 
-	text-align: center;
+
+.review-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--azul-oscuro);
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
 }
-.news-legend h1{
-	color: var(--azul-oscuro);
-	font-weight: 600;
-	margin-bottom: 26px;
+
+.review-card {
+    background-color: var(--blanco-fondo);
+	border: 2px solid var(--azul-oscuro);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+	cursor: pointer;
 }
-.news-legend p{
-	font-size: 18px;
-	margin-bottom: 26px;
+
+.review-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--azul-oscuro);
+    margin-bottom: 40px;
 }
-.news-legend button{
-	padding: 5px;
-	width: 14vw;
-	border-radius: 10px;
+
+.blockquote-footer {
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
 	background-color: var(--azul-oscuro);
-	border: transparent;
-	color: var(--blanco-fondo);
-	font-weight: 800;
 }
-.news-legend button a{
-	text-decoration: none;
-	color: var(--blanco-fondo);
+
+/* Iconos en las tarjetas */
+.review-icon {
+    margin-bottom: 20px;
 }
-.news-square{
-	background-color: #2891FF;
-	width: 30%;
-	height: 200px;
-	margin: 10px;
-	border-radius: 20px;
-	border: solid 3px var(--azul-oscuro);
+
+.review-icon img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin: 0 auto;
 }
-.special{
-	background-color: var(--verde);
+
+.review-card:hover {
+    transform: translateY(-10px);
+	border: 2px solid var(--verde);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+	.blockquote-footer {
+		border-color: var(--verde);
+		color: var(--azul-oscuro);
+		background-color: var(--verde);
+	}
 }
- 
+
+@media (max-width: 768px) {
+    .review-card {
+        margin-bottom: 30px;
+    }
+}

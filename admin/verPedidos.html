@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Noticia</title>
+    <script src="/public/js/cargarReutilizable.js"></script>
+    <link rel="stylesheet" href="/public/css/comun.css">
+    <link rel="stylesheet" href="/public/css/verPedidos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+</head>
+<body>
+    <div id="header"></div>
+    <h1 class="pedidos-title">Lista de Pedidos</h1>
+    <div class="container-container">
+        <div id="pedidos-container"></div>
+    </div>
+
+    <script>
+        fetch('/pedidos')
+    .then(response => response.json())
+    .then(pedidos => {
+        const container = document.getElementById('pedidos-container');
+
+        pedidos.forEach(pedido => {
+            const pedidoDiv = document.createElement('div');
+            pedidoDiv.classList.add('pedido');
+
+            pedidoDiv.innerHTML = `
+                <div class="usuario-info">
+                    <p><strong>Nombre:</strong> ${pedido.usuario.nombre}</p>
+                    <p><strong>Correo:</strong> ${pedido.usuario.correo}</p>
+                </div>
+                <div class="pedido-info">
+                    <p><strong>ID Pedido:</strong> ${pedido.id}</p>
+                    <p><strong>Total:</strong> $${pedido.total.toFixed(2)}</p>
+                    <p><strong>Fecha:</strong> ${new Date(pedido.fecha_pedido).toLocaleString()}</p>
+                    <p><strong>Estado actual:</strong> <span class="estado">${pedido.estado}</span></p>
+                </div>
+                <ul class="productos">
+                    ${pedido.productos.map(p => `
+                        <li>
+                            Producto ID: ${p.producto_id} - Nombre: ${p.nombre} - Cantidad: ${p.cantidad} - Precio Unitario: $${p.precio_unitario.toFixed(2)}
+                        </li>
+                    `).join('')}
+                </ul>
+                <form class="estado-form" data-pedido-id="${pedido.id}">
+                    <label for="estado">Cambiar estado:</label>
+                    <select name="estado" class="estado-select">
+                        <option value="pendiente" ${pedido.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                        <option value="completado" ${pedido.estado === 'completado' ? 'selected' : ''}>Completado</option>
+                        <option value="cancelado" ${pedido.estado === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                    </select>
+                    <button type="submit">Actualizar</button>
+                </form>
+            `;
+
+
+
+
+            container.appendChild(pedidoDiv);
+        });
+
+        // Agregar eventos para manejar el cambio de estado
+        document.querySelectorAll('.estado-form').forEach(form => {
+            form.addEventListener('submit', event => {
+                event.preventDefault();
+
+                const pedidoId = form.getAttribute('data-pedido-id');
+                const nuevoEstado = form.querySelector('.estado-select').value;
+
+                fetch(`/pedidos/${pedidoId}/estado`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ estado: nuevoEstado })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al actualizar el estado');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Actualizar el estado visualmente en la página
+                    const estadoSpan = form.parentElement.querySelector('.estado');
+                    estadoSpan.textContent = nuevoEstado;
+                })
+                .catch(error => console.error('Error al cambiar el estado:', error));
+            });
+        });
+    })
+    .catch(error => console.error('Error al cargar los pedidos:', error));
+
+    </script>
+    <div id="footer"></div>
+    
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/public/js/cargarReutilizable.js"></script>
+    <link rel="stylesheet" href="/public/css/comun.css">
+    <link rel="stylesheet" href="/public/css/verMisPedidos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div id="header"></div>
+
+    <main>
+        <table id="pedidosTable">
+            <thead>
+                <tr>
+                    <th>Pedido Numero</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total (Precio x Cantidad)</th>
+                    <th>Total de la compra</th>
+                    <th>Estado</th>
+                    <th>Fecha Pedido</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los pedidos se inyectarán aquí con JavaScript -->
+            </tbody>
+        </table>
+    </main>
+    <div id="footer"></div>
+    <script src="/public/js/misPedidos.js"></script>
+    
+</body>
+</html>

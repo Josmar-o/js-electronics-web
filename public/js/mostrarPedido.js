@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             const orderItems = document.getElementById('order-items');
             const orderTotal = document.getElementById('order-total');
-            let total = 0;
+            let total = 0; 
 
             // Renderizar productos en el carrito
             data.forEach(item => {

@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt'); // Install bcrypt for password hashing
 const validator = require('validator');
 const multer = require('multer');
 const Stripe = require('stripe');
+const router = express.Router();
 
 
 const app = express();
@@ -64,7 +65,7 @@ app.post('/login', (req, res) => {
                     // Redirect based on admin status
                     if (user.is_admin) {
                         // Redirect to admin dashboard or HTML page
-                        res.json({ success: true, redirectUrl: '/html/admin/dashboard.html' });
+                        res.json({ success: true, redirectUrl: '/admin/dashboard.html' });
                     } else {
                         // Redirect to regular user profile or HTML page
                         res.json({ success: true, redirectUrl: '/html/home.html' });
@@ -86,88 +87,143 @@ app.post('/login', (req, res) => {
 function isAuthenticated(req, res, next) {
     if (req.session.user) {
         next();
+        
     } else {
         res.status(401).json({ message: 'No Autorizado' });
     }
 }
 
-// Example of a protected route
+// Ruta para verificar autenticación
+app.get('/isLoggedIn', (req, res) => {
+    if (req.session.user) {
+        res.json({ logged_in: true });
+    } else {
+        res.json({ logged_in: false });
+    }
+});
+app.get('/mis-pedidos', (req, res) => {
+    // Verificar si el usuario está autenticado
+    if (req.session.user) {
+        const userId = req.session.user.id; // Obtener el ID del usuario de la sesión
+
+        // Consulta SQL para obtener los pedidos del usuario
+        const query = `
+            SELECT p.id AS pedido_id, p.total, p.fecha_pedido, p.estado, dp.cantidad, dp.precio_unitario, pr.nombre AS producto
+            FROM pedidos p
+            JOIN detalle_pedido dp ON p.id = dp.pedido_id
+            JOIN productos pr ON dp.producto_id = pr.id
+            WHERE p.usuario_id = ?`;
+        
+        db.query(query, [userId], (err, result) => {
+            if (err) {
+                console.error('Error en la consulta:', err);
+                return res.status(500).send('Error al obtener los pedidos');
+            }
+            
+            // Responder con los pedidos en formato JSON
+            res.json({ pedidos: result });
+        });
+    } else {
+        // Si el usuario no está autenticado, redirigir al login
+        res.redirect('/html/login.html');
+    }
+});
+
 // Add a product to the cart
 app.post('/carrito/add', isAuthenticated, (req, res) => {
     const producto_id = req.body.productValue;
-    const cantidad = 1;
-    const usuario_id = req.session.user.id; // Get user ID from the session
+    const cantidad = 1; // Por defecto, se agrega 1 unidad
+    const usuario_id = req.session.user.id;
 
-    // SQL queries
     const sqlCarritoCheck = 'SELECT id FROM carrito WHERE usuario_id = ?';
     const sqlCarritoCreate = 'INSERT INTO carrito (usuario_id) VALUES (?)';
     const sqlCheckProduct = 'SELECT * FROM carrito_productos WHERE carrito_id = ? AND producto_id = ?';
     const sqlInsertProduct = 'INSERT INTO carrito_productos (carrito_id, producto_id, cantidad) VALUES (?, ?, ?)';
     const sqlUpdateProduct = 'UPDATE carrito_productos SET cantidad = cantidad + ? WHERE carrito_id = ? AND producto_id = ?';
+    const sqlGetStock = 'SELECT stock FROM productos WHERE id = ?';
 
-    // Step 1: Check if the user already has a carrito
-    db.query(sqlCarritoCheck, [usuario_id], (err, result) => {
+    db.query(sqlGetStock, [producto_id], (err, stockResult) => {
         if (err) {
             console.error('Database error:', err);
-            return res.status(500).json({ error: 'Database error' });
+            return res.status(500).json({ success: false, message: 'Error al obtener el stock del producto' });
         }
 
-        let carrito_id;
+        const stock = stockResult[0]?.stock || 0; // Obtener el stock del producto
 
-        if (result.length > 0) {
-            // User already has a carrito, get the carrito_id
-            carrito_id = result[0].id;
-            addProductToCarrito(carrito_id);
-        } else {
-            // No carrito found, create one
-            db.query(sqlCarritoCreate, [usuario_id], (err, result) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return res.status(500).json({ error: 'Database error' });
-                }
-                carrito_id = result.insertId;
+        if (stock <= 0) {
+            return res.status(400).json({ success: false, message: 'El producto no tiene stock disponible.' });
+        }
+
+        // Verificar si el carrito ya existe
+        db.query(sqlCarritoCheck, [usuario_id], (err, carritoResult) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ success: false, message: 'Error al verificar el carrito' });
+            }
+
+            let carrito_id;
+
+            if (carritoResult.length > 0) {
+                carrito_id = carritoResult[0].id; // Carrito ya existe
                 addProductToCarrito(carrito_id);
-            });
-        }
+            } else {
+                // Crear un nuevo carrito si no existe
+                db.query(sqlCarritoCreate, [usuario_id], (err, createResult) => {
+                    if (err) {
+                        console.error('Database error:', err);
+                        return res.status(500).json({ success: false, message: 'Error al crear el carrito' });
+                    }
+                    carrito_id = createResult.insertId;
+                    addProductToCarrito(carrito_id);
+                });
+            }
 
-        // Step 2: Function to add product to the carrito
-        function addProductToCarrito(carrito_id) {
-            // Check if product is already in the cart
-            db.query(sqlCheckProduct, [carrito_id, producto_id], (err, result) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return res.status(500).json({ error: 'Database error' });
-                }
+            // Función para agregar producto al carrito
+            function addProductToCarrito(carrito_id) {
+                db.query(sqlCheckProduct, [carrito_id, producto_id], (err, productResult) => {
+                    if (err) {
+                        console.error('Database error:', err);
+                        return res.status(500).json({ success: false, message: 'Error al verificar el producto en el carrito' });
+                    }
 
-                if (result.length > 0) {
-                    // Product already in cart, update quantity
-                    db.query(sqlUpdateProduct, [cantidad, carrito_id, producto_id], (err) => {
-                        if (err) {
-                            console.error('Database error:', err);
-                            return res.status(500).json({ error: 'Database error' });
-                        }
-                        res.redirect('/html/item.html?id=' + producto_id);
-                    });
-                } else {
-                    // Product not in cart, insert new row
-                    db.query(sqlInsertProduct, [carrito_id, producto_id, cantidad], (err) => {
-                        if (err) {
-                            console.error('Database error:', err);
-                            return res.status(500).json({ error: 'Database error' });
-                        }
+                    const cantidadActual = productResult[0]?.cantidad || 0; // Cantidad actual en el carrito
 
-                        res.redirect('/html/item.html?id=' + producto_id); // Redirect to the product page after adding
-                    });
-                }
-            });
-        }
+                    if (cantidadActual + cantidad > stock) {
+                        return res.status(400).json({
+                            success: false,
+                            message: `No puedes agregar más de del stock (${stock}) que estan disponibles de este producto.`,
+                        });
+                    }
+
+                    if (productResult.length > 0) {
+                        // Actualizar la cantidad del producto en el carrito
+                        db.query(sqlUpdateProduct, [cantidad, carrito_id, producto_id], (err) => {
+                            if (err) {
+                                console.error('Database error:', err);
+                                return res.status(500).json({ success: false, message: 'Error al actualizar la cantidad del producto' });
+                            }
+                            res.json({ success: true, message: 'Producto actualizado en el carrito' });
+                        });
+                    } else {
+                        // Insertar un nuevo producto en el carrito
+                        db.query(sqlInsertProduct, [carrito_id, producto_id, cantidad], (err) => {
+                            if (err) {
+                                console.error('Database error:', err);
+                                return res.status(500).json({ success: false, message: 'Error al agregar el producto al carrito' });
+                            }
+                            res.json({ success: true, message: 'Producto agregado al carrito' });
+                        });
+                    }
+                });
+            }
+        });
     });
 });
 
 
 
-// View cart contents
-// Ruta para obtener los productos en el carrito
+
+//Ver carrito
 
 app.get('/carrito', isAuthenticated, (req, res) => {
     const usuario_id = req.session.user.id;
@@ -190,22 +246,53 @@ app.get('/carrito', isAuthenticated, (req, res) => {
     });
 });
 
-app.post('/carrito/increase', (req, res) => {
-    const producto_id = req.body.producto_id;
-    const usuario_id = req.session.user.id
+app.post('/carrito/increase', isAuthenticated, (req, res) => {
+    const { producto_id } = req.body;
+    const usuario_id = req.session.user.id;
 
-    db.query(`
+    const sqlGetStock = 'SELECT stock FROM productos WHERE id = ?';
+    const sqlGetQuantity = `
+        SELECT cantidad FROM carrito_productos 
+        WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) 
+        AND producto_id = ?`;
+    const sqlUpdateQuantity = `
         UPDATE carrito_productos
         SET cantidad = cantidad + 1
-        WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?`, 
-        [usuario_id, producto_id], (err, result) => {
+        WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?) AND producto_id = ?`;
+
+    // Obtener el stock del producto
+    db.query(sqlGetStock, [producto_id], (err, stockResult) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Error al obtener el stock.' });
+        }
+        const stock = stockResult[0]?.stock || 0;
+
+        // Obtener la cantidad actual en el carrito
+        db.query(sqlGetQuantity, [usuario_id, producto_id], (err, quantityResult) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send('Error al actualizar la cantidad.');
+                return res.status(500).json({ success: false, message: 'Error al obtener la cantidad.' });
             }
-            res.redirect('/html/carrito.html'); 
+            const cantidadActual = quantityResult[0]?.cantidad || 0;
+
+            if (cantidadActual < stock) {
+                // Actualizar la cantidad si no supera el stock
+                db.query(sqlUpdateQuantity, [usuario_id, producto_id], (err) => {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).json({ success: false, message: 'Error al actualizar la cantidad.' });
+                    }
+                    res.json({ success: true, message: 'Cantidad actualizada.' });
+                });
+            } else {
+                res.json({ success: false, message: 'No puedes agregar más de lo disponible en stock.' });
+            }
         });
+    });
 });
+
+
 
 
 app.post('/carrito/decrease', (req, res) => {
@@ -247,30 +334,71 @@ app.post('/carrito/delete', (req, res) => {
 // Logout route
 app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
-        if (err) return res.status(500).json({ error: 'Logout failed' });
+        if (err) {
+            return res.status(500).json({ error: 'Logout failed' });
+        }
         res.json({ message: 'Logout successful' });
     });
 });
 
 
 
+
 app.post('/register', (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
-    // Input validation
-    if (!validator.isEmail(email)) {
-        return res.status(400).json({ error: 'Invalid email address' });
+    // Validación de la contraseña (mínimo 8 caracteres, al menos una letra y un número)
+    if (password.length < 8) {
+        return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres.' });
     }
 
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Al menos una letra y un número
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número.' });
+    }
+
+    // Validación del correo electrónico
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({ error: 'Dirección de correo electrónico no válida.' });
+    }
+
+    // Hashing de la contraseña
     bcrypt.hash(password, 10, (err, hash) => {
-        if (err) return res.status(500).json({ error: 'Error hashing password' });
-        
+        if (err) return res.status(500).json({ error: 'Error al cifrar la contraseña' });
+
         const sql = 'INSERT INTO usuarios (nombre, apellido, email, contrasena) VALUES (?, ?, ?, ?)';
         db.query(sql, [firstName, lastName, email, hash], (err, result) => {
-            if (err) return res.status(500).json({ error: 'Database error' });
-            res.json({ success: true, message: 'Registration successful' });
+            if (err) return res.status(500).json({ error: 'Error en la base de datos' });
+            res.json({ success: true, message: 'Registro exitoso' });
         });
     });
+});
+
+// Ruta para obtener los detalles del usuario actual
+app.get('/perfil', (req, res) => {
+    // Verificar si el usuario está autenticado
+    if (req.session.user) {
+        const userId = req.session.user.id; // Obtener el ID del usuario de la sesión
+
+        // Consulta para obtener los detalles del usuario
+        const query = 'SELECT * FROM usuarios WHERE id = ?';
+        db.query(query, [userId], (err, results) => {
+            if (err) {
+                console.error('Error al obtener los datos del usuario: ', err);
+                return res.status(500).send('Error en el servidor');
+            }
+
+            if (results.length === 0) {
+                return res.status(404).send('Usuario no encontrado');
+            }
+
+            // Enviar los datos del usuario
+            res.json(results[0]);
+        });
+    } else {
+        // Si el usuario no está autenticado, enviar un error 401
+        return res.status(401).json({ message: 'No Autorizado' });
+    }
 });
 
 
@@ -395,7 +523,27 @@ app.get('/news', (req, res) => {
       res.json(results);
     });
 });
-
+app.post('/agregar-blog', (req, res) => {
+    console.log(req.body); // Esto mostrará los datos enviados por el formulario
+    const { titulo, contenido, imagen_url } = req.body;
+  
+    if (!titulo || !contenido) {
+      return res.status(400).send('Título y contenido son obligatorios');
+    }
+    if (contenido.length > 660) {
+        return res.status(400).json({ message: 'El contenido no puede exceder los 660 caracteres.' });
+    }
+  
+    const query = `INSERT INTO blog (titulo, contenido, imagen_url) VALUES (?, ?, ?)`;
+    db.query(query, [titulo, contenido, imagen_url || null], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error al agregar el blog');
+      }
+      res.status(200).send('Blog agregado exitosamente');
+    });
+  });
+  
 // Serve your HTML file (for the catalog page)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/html/home.html')); // Make sure you have the HTML file
@@ -412,31 +560,47 @@ app.get('/get-session-info', (req, res) => {
 });
 
 
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, 'img_laptops'));  // Set destination folder
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);  // Get file extension
-        cb(null, Date.now() + ext);  // Set file name to the current timestamp to avoid overwriting
+// Middleware para verificar si el usuario es administrador
+function isAdmin(req, res, next) {
+    
+    if (req.session.user && req.session.user.isAdmin) {
+        return next();
+    } else {
+        return res.status(403).json({ message: "Acceso denegado. Solo administradores pueden acceder a esta ruta." });
     }
-});
+}
 
-const upload = multer({ storage: storage });
+app.use('/admin', isAdmin, express.static(path.join(__dirname, 'admin')));
 
-// Route to display product form
-app.get('/add-product', (req, res) => {
-    res.sendFile(path.join(__dirname, 'product_upload.html'));
-});
+app.post('/add-product', isAuthenticated, (req, res) => {
+    const {
+        nombre,
+        descripcion,
+        procesador,
+        ram,
+        rom,
+        tipo_almacenamiento,
+        precio,
+        stock,
+        tamano_pantalla,
+        resolucion_pantalla,
+        sistema_operativo,
+        tarjeta_grafica,
+        peso,
+        dimensiones,
+        garantia_meses,
+        categoria,
+        marca,
+        fecha_lanzamiento,
+        imagenes_url // Agregar URLs como parte del request body
+    } = req.body;
 
-// Handle the form submission to add product
-app.post('/add-product', upload.array('imagenes', 5), isAuthenticated,(req, res) => {
-    const { nombre, descripcion, procesador, ram, rom, tipo_almacenamiento, precio, stock, tamano_pantalla, resolucion_pantalla, sistema_operativo, tarjeta_grafica, peso, dimensiones, garantia_meses, categoria, marca, fecha_lanzamiento } = req.body;
-
-    // Validate the input fields
-    if (!nombre || !descripcion || !procesador || !ram || !rom || !tipo_almacenamiento || !precio || !stock || !tamano_pantalla || !resolucion_pantalla || !sistema_operativo || !tarjeta_grafica || !peso || !dimensiones || !garantia_meses || !categoria || !marca || !fecha_lanzamiento) {
-        return res.status(400).json({ message: 'Please fill all the fields.' });
+    // Validar campos requeridos
+    if (!nombre || !descripcion || !procesador || !ram || !rom || !tipo_almacenamiento || !precio || !stock || !tamano_pantalla || !resolucion_pantalla || !sistema_operativo || !tarjeta_grafica || !peso || !dimensiones || !garantia_meses || !categoria || !marca || !fecha_lanzamiento || !imagenes_url) {
+        return res.status(400).json({ message: 'Por favor, llena todos los campos.' });
+    }
+    if (descripcion.length > 660) {
+        return res.status(400).json({ message: 'La descripción no puede exceder los 660 caracteres.' });
     }
 
     const productData = {
@@ -460,33 +624,108 @@ app.post('/add-product', upload.array('imagenes', 5), isAuthenticated,(req, res)
         fecha_lanzamiento
     };
 
-    // Insert product details into database
+    // Insertar producto en la base de datos
     const query = 'INSERT INTO productos SET ?';
     db.query(query, productData, (err, result) => {
         if (err) {
-            return res.status(500).json({ message: 'Error inserting product into database.' });
+            console.error('Error inserting product:', err);
+            return res.status(500).json({ message: 'Error insertando el producto en la base de datos.' });
         }
 
-        // Get the inserted product ID
         const productId = result.insertId;
 
-        // Save image URLs in database
-        if (req.files) {
-            req.files.forEach(file => {
-                const imageData = {
-                    producto_id: productId,
-                    imagen_url: '/img_productos/' + file.filename
-                };
-                db.query('INSERT INTO producto_imagenes SET ?', imageData, (err) => {
-                    if (err) console.log('Error inserting product images', err);
-                });
-            });
-        }
+        // Insertar URLs de imágenes asociadas
+        const urls = imagenes_url.split(',').map(url => url.trim());
+        const insertImageQuery = 'INSERT INTO producto_imagenes (producto_id, imagen_url) VALUES ?';
+        const imageValues = urls.map(url => [productId, url]);
 
-        res.status(200).json({ success: true });
+        db.query(insertImageQuery, [imageValues], (err) => {
+            if (err) {
+                console.error('Error inserting product images:', err);
+                return res.status(500).json({ message: 'Error insertando las URLs de las imágenes.' });
+            }
 
+            res.status(200).json({ success: true });
+        });
     });
 });
+
+// Ruta para obtener los pedidos
+app.get('/pedidos', (req, res) => {
+    const query = `
+        SELECT 
+            u.nombre AS usuario_nombre, 
+            u.email AS usuario_correo, 
+            p.id AS pedido_id, 
+            p.total, 
+            p.fecha_pedido, 
+            p.estado, 
+            dp.producto_id, 
+            dp.cantidad, 
+            dp.precio_unitario,
+            pr.nombre AS producto_nombre
+        FROM pedidos p
+        JOIN usuarios u ON p.usuario_id = u.id
+        JOIN detalle_pedido dp ON dp.pedido_id = p.id
+        JOIN productos pr ON dp.producto_id = pr.id
+        ORDER BY p.fecha_pedido DESC;
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error al obtener los pedidos.');
+        }
+
+        // Agrupa los pedidos por usuario y pedido
+        const pedidos = results.reduce((acc, row) => {
+            const { usuario_nombre, usuario_correo, pedido_id, total, fecha_pedido, estado, producto_id, cantidad, precio_unitario, producto_nombre } = row;
+            
+            if (!acc[pedido_id]) {
+                acc[pedido_id] = {
+                    usuario: { nombre: usuario_nombre, correo: usuario_correo },
+                    id: pedido_id,
+                    total,
+                    fecha_pedido,
+                    estado,
+                    productos: []
+                };
+            }
+
+            acc[pedido_id].productos.push({
+                producto_id, 
+                nombre: producto_nombre,  // Aquí agregas el nombre del producto
+                cantidad, 
+                precio_unitario
+            });
+            return acc;
+        }, {});
+
+        res.json(Object.values(pedidos));
+    });
+});
+
+
+app.post('/pedidos/:id/estado', (req, res) => {
+    const pedidoId = req.params.id;
+    const nuevoEstado = req.body.estado;
+
+    const query = `
+        UPDATE pedidos
+        SET estado = ?
+        WHERE id = ?;
+    `;
+
+    db.query(query, [nuevoEstado, pedidoId], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Error al actualizar el estado' });
+        }
+
+        res.json({ message: 'Estado actualizado correctamente' });
+    });
+});
+
 
 
 app.get('/carrito/data', isAuthenticated, (req, res) => {

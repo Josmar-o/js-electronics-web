@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte</title>
+    <script src="/public/js/cargarReutilizable.js"></script>
+    <link rel="stylesheet" href="/public/css/comun.css">
+    <link rel="stylesheet" href="/public/css/soporte.css">
+</head>
+<body>
+    <div id="header"></div>
+    <main class="faq-main">
+        <section id="faq" class="faq-section">
+            <div class="faq-section-title">
+                <img src="/public/img/support_page_icons/faq_icon.svg" alt=""><h2> Preguntas Frecuentes</h2>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">¿Qué marcas de laptops están disponibles?</button>
+                <div class="faq-answer">
+                    <p>Ofrecemos una amplia gama de marcas reconocidas como Dell, HP, Lenovo, ASUS, Acer, Apple y más.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Puedo financiar la compra de mi laptop?</button>
+                <div class="faq-answer">
+                    <p>No, no ofrecemos financiamiento por el momento.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Las laptops incluyen garantía?</button>
+                <div class="faq-answer">
+                    <p>Todas nuestras laptops cuentan con garantía, generalmente de un año. Consulta los detalles al momento de la compra.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Hacen envíos internacionales?</button>
+                <div class="faq-answer">
+                    <p>Actualmente, realizamos envíos únicamente dentro del país. Estamos trabajando para expandir nuestras opciones de envío.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Puedo personalizar mi laptop antes de comprarla?</button>
+                <div class="faq-answer">
+                    <p>En algunos modelos, puedes elegir características personalizadas como memoria RAM, almacenamiento y procesador. Consulta los modelos elegibles en el catálogo, y luego contactanos.</p>
+                </div>
+            </div>
+
+        </section>
+        <div class="faq-img">
+            <img src="/public/img/support_page_icons/faq_person.svg" alt="">
+        </div>
+
+    </main>
+    <hr class="soporte-hr">
+    <div class="soporte-section-title">
+        <img src="/public/img/support_page_icons/support_icon.svg" alt=""><h2>Soporte en Linea</h2>
+    </div>
+    <section class="soporte-section">
+        <div class="soporte-img">
+            <img src="/public/img/support_page_icons/support_person.svg" alt="">
+        </div>
+        <div class="soporte-consulta">
+            <div class="mensaje-1">
+                <p>La información previa no solventó mi pregunta. <strong>¿Me ayudas?</strong></p>
+            </div>
+            <div class="mensaje-2">
+                <p><strong>¡Claro!</strong> Cuéntanos más de tu dudas, nos pondremos en contacto lo más pronto posible.</p>
+            </div>
+            <form action="" id="contacto-form">
+                <input id="mensaje" type="text" placeholder="Explícanos tus dudas aquí. ¡Entre más detalles, mejor te podremos asistir!">
+                <a id="whatsapp-link" href="" target="_blank">
+                    <button type="submit"></button>
+                </a>
+            </form>
+            
+        </div>
+        
+    </section>
+    
+    
+    <div id="footer"></div>
+    <!-- Script para mostrar las respuestas -->
+    <script>
+        document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', () => {
+            const answer = button.nextElementSibling;
+            button.classList.toggle('active');
+            if (answer.style.maxHeight) {
+                answer.style.maxHeight = null;
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
+        });
+    });
+            //Pequeño script para enviar mensajes a whatsapp
+            document.getElementById('contacto-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío normal del formulario
+
+            // Obtén el mensaje del input
+            var mensaje = document.getElementById('mensaje').value;
+
+            // Usar encodeURIComponent para asegurar que el mensaje sea seguro para la URL
+            var mensajeEncoded = encodeURIComponent(mensaje);
+
+            // Crea el enlace de WhatsApp con el mensaje codificado
+            var whatsappURL = `https://wa.me/50768608313?text=${mensajeEncoded}`;
+
+            // Establece el href del enlace de WhatsApp y abre el enlace
+            var link = document.getElementById('whatsapp-link');
+            link.href = whatsappURL;
+            link.click();
+        });
+
+
+    </script>
+    
+</body>
+</html>

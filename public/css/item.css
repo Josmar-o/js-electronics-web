@@ -169,3 +169,15 @@ h1, h2, h3,h4, button{
 .buttons button img {
     height: 30px;
 }
+
+.item-details{
+    text-align: center;
+    margin: 0 0 40px 0;
+}
+
+.buttons a{
+    text-decoration: none;
+}
+.item-details h2{
+    margin-bottom: 10px;
+}

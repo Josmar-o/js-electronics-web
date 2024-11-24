@@ -7,12 +7,33 @@ async function handleRegistration(event) {
     const password = document.getElementById('reg-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
 
-    // Validate passwords match
+    // Validación de la longitud de la contraseña (mínimo 8 caracteres)
+    if (password.length < 8) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Registro Fallido',
+            text: 'La contraseña debe tener al menos 8 caracteres.',
+        });
+        return;
+    }
+
+    // Validación de coincidencia de contraseñas
     if (password !== confirmPassword) {
         Swal.fire({
             icon: 'error',
-            title: 'Registration Failed',
-            text: 'Passwords do not match.',
+            title: 'Registro Fallido',
+            text: 'Las contraseñas no coinciden.',
+        });
+        return;
+    }
+
+    // Validación de la fuerza de la contraseña (opcional, puedes añadir más reglas)
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Al menos una letra y un número
+    if (!passwordRegex.test(password)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Registro Fallido',
+            text: 'La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número.',
         });
         return;
     }
@@ -29,32 +50,32 @@ async function handleRegistration(event) {
         if (result.success) {
             Swal.fire({
                 icon: 'success',
-                title: 'Registration Successful',
+                title: 'Registro Exitoso',
                 text: result.message,
             }).then(() => {
-                // Optionally, redirect to login or another page
                 toggleForm();
             });
         } else {
             Swal.fire({
                 icon: 'error',
-                title: 'Registration Failed',
-                text: result.error || 'Please try again later.',
+                title: 'Registro Fallido',
+                text: result.error || 'Por favor intente de nuevo.',
             });
         }
     } catch (error) {
         console.error('Error:', error);
         Swal.fire({
             icon: 'error',
-            title: 'An error occurred',
-            text: 'Please try again later.',
+            title: 'Un error ocurrió',
+            text: 'Por favor intente de nuevo luego.',
         });
     }
 }
 
+
 async function handleLogin(event) {
 
-event.preventDefault(); // Prevent the form from submitting normally
+event.preventDefault();
 
 const email = document.getElementById('email').value;
 const password = document.getElementById('password').value;
@@ -71,28 +92,28 @@ const result = await response.json();
 if (result.success) {
     Swal.fire({
         icon: 'success',
-        title: 'Login Successful',
+        title: 'Login Exitoso',
         text: result.message,
     }).then(() => {
-        // Redirect to another page after the alert
+
         window.location.href = result.redirectUrl;
 
     });
 } else {
     Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
+        icon: ' error',
+        title: 'Login Fallido',
         text: result.message,
     });
-    // Clear only the password field if login failed
+
     document.getElementById('password').value = '';
 }
 } catch (error) {
 console.error('Error:', error);
 Swal.fire({
     icon: 'error',
-    title: 'An error occurred',
-    text: 'Please try again later.',
+    title: 'Un error ocurrió',
+    text: 'Por favor intente de nuevo luego.',
 });
 }
 }

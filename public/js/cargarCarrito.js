@@ -1,15 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const cartContent = document.getElementById('cartContent');
+    const authMessage = document.getElementById('authMessage'); // Contenedor para el mensaje de autenticación
+
     // Obtener los productos del carrito al cargar la página
     fetch('/carrito')
-        .then(response => response.json())
-        .then(data => {
-            const cartContent = document.getElementById('cartContent');
+        .then((response) => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // Mostrar mensaje de autenticación
+                    authMessage.innerHTML = '<p>Necesitas iniciar sesión para ver el carrito.</p>';
+                }
+                throw new Error('No Autorizado');
+            }
+            return response.json();
+        })
+        .then((data) => {
             if (data.length === 0) {
                 cartContent.innerHTML = '<p>No tienes productos en el carrito.</p>';
             } else {
-                console.log(data);
-                data.forEach(product => {
-                    // Crear los elementos HTML para cada producto
+                data.forEach((product) => {
+                    // Crear elementos HTML para cada producto
                     const cartItem = document.createElement('div');
                     cartItem.classList.add('cart-item');
                     cartItem.innerHTML = `
@@ -21,35 +31,65 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p>${product.procesador} | ${product.ram} RAM | ${product.rom} ${product.tipo_almacenamiento}</p>
                             <div class="price-row">
                                 <h3>Precio:</h3>
-                                <div class="price-container">
-                                    <span class="price">$${product.precio}</span>
-                                </div>
+                                <span class="price">$${product.precio}</span>
                             </div>
                             <div class="cant-row">
-                            <h3>Cantidad:</h3>
-                                 <div class="price-control">
-                                    <form action="/carrito/decrease" method="POST">
-                                        <input type="hidden" name="producto_id" value="${product.id}">
-                                        <button type="submit" class="decrease-quantity">-</button>
-                                    </form>
+                                <h3>Cantidad:</h3>
+                                <div class="quantity-control">
+                                    <button class="decrease-quantity" data-id="${product.id}">-</button>
                                     <span class="quantity">${product.cantidad}</span>
-                                    <form action="/carrito/increase" method="POST">
-                                        <input type="hidden" name="producto_id" value="${product.id}">
-                                        <button type="submit" class="increase-quantity">+</button>
-                                    </form>
-                                    <form action="/carrito/delete" method="POST">
-                                        <input type="hidden" name="producto_id" value="${product.id}">
-                                        <button type="submit" class="delete-item">Eliminar</button>
-                                    </form>
+                                    <button class="increase-quantity" data-id="${product.id}">+</button>
+                                    <button class="delete-item" data-id="${product.id}"></button>
                                 </div>
                             </div>
                         </div>
                     `;
                     cartContent.appendChild(cartItem);
                 });
+
+                // Agregar eventos a los botones
+                attachEventListeners();
             }
         })
-        .catch(error => {
+        .catch((error) => {
             console.error('Error al cargar el carrito:', error);
         });
+
+    function attachEventListeners() {
+        // Botones para aumentar cantidad
+        document.querySelectorAll('.increase-quantity').forEach((button) => {
+            button.addEventListener('click', async (event) => {
+                const productId = button.getAttribute('data-id');
+                try {
+                    const response = await fetch('/carrito/increase', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ producto_id: productId }),
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Producto añadido',
+                            text: 'Se ha añadido un producto al carrito.',
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error al aumentar cantidad:', error);
+                }
+            });
+        });
+    }
 });
