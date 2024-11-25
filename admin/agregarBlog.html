@@ -29,10 +29,10 @@
           
       </div>
     <div id="footer"></div>
-    <script>
-        const descripcion = document.getElementById('descripcion');
+    <script> 
+        const descripcion = document.getElementById('contenido'); // Usamos el id 'contenido'
         const contador = document.getElementById('descripcion-contador');
-    
+        
         descripcion.addEventListener('input', () => {
             contador.textContent = `${descripcion.value.length}/660`;
         });

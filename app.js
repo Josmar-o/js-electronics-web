@@ -294,10 +294,9 @@ app.post('/carrito/increase', isAuthenticated, (req, res) => {
 
 
 
-
 app.post('/carrito/decrease', (req, res) => {
     const producto_id = req.body.producto_id;
-    const usuario_id = req.session.user.id
+    const usuario_id = req.session.user.id;
 
     db.query(`
         UPDATE carrito_productos
@@ -306,15 +305,15 @@ app.post('/carrito/decrease', (req, res) => {
         AND cantidad > 1`, [usuario_id, producto_id], (err, result) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send('Error al actualizar la cantidad.');
+                return res.status(500).json({ success: false, message: 'Error al actualizar la cantidad.' });
             }
-            res.redirect('/html/carrito.html');  // Redirect back to the cart page after updating
+            res.json({ success: true, message: 'Cantidad actualizada.' });
         });
 });
 
 app.post('/carrito/delete', (req, res) => {
     const producto_id = req.body.producto_id;
-    const usuario_id = req.session.user.id
+    const usuario_id = req.session.user.id;
 
     db.query(`
         DELETE FROM carrito_productos
@@ -322,11 +321,12 @@ app.post('/carrito/delete', (req, res) => {
         [usuario_id, producto_id], (err, result) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send('Error al eliminar el producto.');
+                return res.status(500).json({ success: false, message: 'Error al eliminar el producto.' });
             }
-            res.redirect('/html/carrito.html');  // Redirect back to the cart page after deleting the item
+            res.json({ success: true, message: 'Producto eliminado.' });
         });
 });
+
 
 
 

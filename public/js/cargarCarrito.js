@@ -91,5 +91,77 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
+        // Botones para disminuir cantidad
+        document.querySelectorAll('.decrease-quantity').forEach((button) => {
+            button.addEventListener('click', async (event) => {
+                const productId = button.getAttribute('data-id');
+                try {
+                    const response = await fetch('/carrito/decrease', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ producto_id: productId }),
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Cantidad actualizada',
+                            text: 'Se ha disminuido la cantidad del producto.',
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error al disminuir cantidad:', error);
+                }
+            });
+        });
+
+        // Botones para eliminar producto
+        document.querySelectorAll('.delete-item').forEach((button) => {
+            button.addEventListener('click', async (event) => {
+                const productId = button.getAttribute('data-id');
+                try {
+                    const response = await fetch('/carrito/delete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ producto_id: productId }),
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Producto eliminado',
+                            text: 'El producto ha sido eliminado del carrito.',
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar el producto:', error);
+                }
+            });
+        });
     }
 });
