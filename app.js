@@ -2,11 +2,12 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const session = require('express-session'); // Import express-session
-const bcrypt = require('bcryptjs'); // Install bcryptjs for password hashing
+const bcrypt = require('bcrypt'); // Install bcryptjs for password hashing
 const validator = require('validator');
 const multer = require('multer');
 const Stripe = require('stripe');
 const router = express.Router();
+require('dotenv').config();
 
 
 const app = express();
@@ -799,7 +800,7 @@ app.get('/api/pedido/confirmacion', isAuthenticated, (req, res) => {
     });
 });
 
-require('dotenv').config();
+
 app.get('/config', (req, res) => {
     res.json({ stripePublicKey: process.env.STRIPE_PUBLIC_KEY });
 });
