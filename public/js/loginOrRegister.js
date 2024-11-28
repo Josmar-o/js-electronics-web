@@ -6,10 +6,10 @@ function toggleForm() {
     if (loginForm.style.display === "none") {
         loginForm.style.display = "block";
         registerForm.style.display = "none";
-        formTitle.textContent = "Login";
+        formTitle.textContent = "Iniciar Sesión";
     } else {
         loginForm.style.display = "none";
         registerForm.style.display = "block";
-        formTitle.textContent = "Register";
+        formTitle.textContent = "Registrarse";
     }
 }

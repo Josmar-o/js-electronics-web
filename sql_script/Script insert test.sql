@@ -1,9 +1,8 @@
 ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'password'; 
 FLUSH PRIVILEGES;
+
 SELECT user, host, plugin FROM mysql.user WHERE user = 'root';
-
-
-
+SELECT user, host, plugin FROM mysql.user WHERE user = 'admin-js';
 
 INSERT INTO productos (
     nombre,
@@ -105,10 +104,10 @@ VALUES
 
 INSERT INTO producto_imagenes (producto_id, imagen_url)
 VALUES 
-    (1, '/img_laptops/laptop.png'),
-    (2, '/img_laptops/laptop.png'),
-    (3, '/img_laptops/laptop.png'),
-    (4, '/img_laptops/laptop.png');
+    (1, 'https://p3-ofp.static.pub/fes/cms/2022/03/18/j4c5s3whya7h03txfx2gb0fb39q1k7129564.png'),
+    (2, 'https://www.cnet.com/a/img/resize/39f8b5e130434d0d9768198e713fcdd0d63b0623/hub/2011/03/10/bb2c1f3a-67c3-11e3-a665-14feb5ca9861/34526813_OVR.png?auto=webp&width=1200'),
+    (3, 'https://it-support-malaysia.com/wp-content/uploads/2019/03/thinkpad-tp-l380.png'),
+    (4, 'https://p1-ofp.static.pub/fes/cms/2022/03/21/uxtnwuszmkyvzz1zyq6lwh3ln4dt8u549469.png');
 
     
 
