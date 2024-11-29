@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Si el usuario no está autenticado, mostrar mensaje de inicio de sesión
         const paymentMessage = document.getElementById('payment-message');
         paymentMessage.innerHTML = '<p>Necesitas iniciar sesión para realizar el pago.</p>';
-        paymentMessage.style.color = 'red';  // Puedes añadir estilo si lo deseas
-        return;  // Salir de la función si el usuario no está autenticado
+        paymentMessage.style.color = 'red';  
+        return;  // No continuar con el resto del código
     }
 
     let stripe, elements, card;

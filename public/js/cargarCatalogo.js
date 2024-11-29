@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         allowOutsideClick: false,
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Redirigir a la página de inicio de sesión
-                            window.location.href = '/html/login.html'; // Ajustar según tu ruta de login
+                            // Redirigir a la página de inicio de sesión si no está autenticado
+                            window.location.href = '/html/login.html'; 
                         }
                     });
                 } else {
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cargar productos al inicio con parámetros de búsqueda si existen
     const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.get('search') || '';  // Si no hay 'search', usar cadena vacía
+    const searchQuery = urlParams.get('search') || '';  // Si no hay 'search', usar cadena vacía 
 
     if (searchQuery) {
         document.getElementById('search-input').value = searchQuery;

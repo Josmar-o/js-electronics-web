@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => { 
-    // La URL ahora apunta a la ruta que devuelve los datos del usuario
+
     fetch('/perfil')
         .then(response => {
             if (!response.ok) {
@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(text => {
             try {
                 
-                const data = JSON.parse(text); // Intentamos convertir el texto en JSON
+                const data = JSON.parse(text); // texto a JSON
                 const isoDate = data.fecha_registro;
                 const date = new Date(isoDate);
 
-                // Usar toLocaleString para formatear la fecha a un formato más legible
+                //convertir la fecha a un formato más legible y en español
                 const normalDate = date.toLocaleString('es-ES', {
                     weekday: 'long', // Día de la semana
                     year: 'numeric', // Año
@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     second: '2-digit' // Segundo
                 });
 
-                // Si la respuesta es válida, se muestran los datos
+                // se muestran los datos
                 document.getElementById("nombre").textContent = data.nombre;
                 document.getElementById("apellido").textContent = data.apellido;
                 document.getElementById("email").textContent = data.email;
                 document.getElementById("date").textContent = normalDate;
             } catch (error) {
-                // Si no se puede convertir el texto en JSON, mostramos un error
+                // Si no se puede convertir el texto en JSON hace esto
                 Swal.fire({
                     icon: 'error',
                     title: 'Error al cargar los datos',

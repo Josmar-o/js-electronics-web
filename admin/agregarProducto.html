@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar producto</title>
+    <title>Admin JS | Agregar producto</title>
     <script src="/public/js/cargarReutilizable.js"></script>
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/agregrarProducto.css">
@@ -173,7 +173,7 @@
                 return;
             }
     
-            // Enviar el formulario al servidor
+            // Enviar el formulario al servidor y sweet alert
             fetch('/add-product', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

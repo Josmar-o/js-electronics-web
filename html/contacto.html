@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto</title>
+    <title>JS Electronics | Contacto</title>
     <script src="/public/js/cargarReutilizable.js"></script>
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/contacto.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="/public/js/enviarEmail.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -30,7 +29,7 @@
                     </div>
                     <div class="contact-content">
                         <div class="contact-form">
-                            <form id="contact-form"> <!-- Moved the ID here -->
+                            <form id="contact-form"> 
                                 <label for="name">Nombre:</label>
                                 <input type="text" id="name" name="name" required>
                                 <label for="email">Correo:</label>
@@ -47,5 +46,6 @@
         </section>
     </main>
     <div id="footer"></div>
+    <script src="/public/js/enviarEmail2.js"></script>
 </body>
 </html>

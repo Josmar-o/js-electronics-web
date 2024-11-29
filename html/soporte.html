@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soporte</title>
+    <title>JS Electronics | Soporte</title>
     <script src="/public/js/cargarReutilizable.js"></script>
     <link rel="stylesheet" href="/public/css/comun.css">
     <link rel="stylesheet" href="/public/css/soporte.css">
@@ -97,17 +97,15 @@
             //Pequeño script para enviar mensajes a whatsapp
             document.getElementById('contacto-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevenir el envío normal del formulario
-
-            // Obtén el mensaje del input
             var mensaje = document.getElementById('mensaje').value;
 
-            // Usar encodeURIComponent para asegurar que el mensaje sea seguro para la URL
+            // Usar encodeURIComponent para asegurar que el mensaje no contenga caracteres especiales
             var mensajeEncoded = encodeURIComponent(mensaje);
 
-            // Crea el enlace de WhatsApp con el mensaje codificado
+            // Crea el enlace de WhatsApp con el mensaje codificado para la seguridad
             var whatsappURL = `https://wa.me/50768608313?text=${mensajeEncoded}`;
 
-            // Establece el href del enlace de WhatsApp y abre el enlace
+            // une el link con el href del enlace
             var link = document.getElementById('whatsapp-link');
             link.href = whatsappURL;
             link.click();

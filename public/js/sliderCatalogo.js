@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Crear el slider
     noUiSlider.create(slider, {
-        start: [0, 3000], // Valores iniciales (min y max)
-        connect: true, // Línea conectada entre los handles
+        start: [0, 3000], 
+        connect: true, 
         range: {
             'min': 0,
             'max': 3000
         },
-        step: 100 // Incrementos de precio
+        step: 100 // Incrementos de precio en 100
     });
 
     // Actualizar valores mostrados y los inputs ocultos

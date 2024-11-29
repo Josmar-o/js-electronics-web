@@ -11,8 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.text())
         .then(data => {
             document.getElementById('header').innerHTML = data;
-            
-            // Verificar la existencia de los botones
+            //constantes
             const logoutButton = document.getElementById('logout-button');
             const loginButton = document.getElementById('login-button');
             const misPedidosButton = document.getElementById('misPedidos-button');
@@ -87,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => console.error('Error fetching session info:', error));
 
-            // Verificar si el usuario es admin
+            // Verificar si el usuario es admin y agregar una tab extra
             fetch('/get-session-info')
                 .then(response => response.json())
                 .then(data => {

@@ -1,5 +1,5 @@
 async function handleRegistration(event) {
-    event.preventDefault(); // Prevent the form from submitting normally
+    event.preventDefault(); 
 
     const firstName = document.getElementById('first-name').value;
     const lastName = document.getElementById('last-name').value;
@@ -27,7 +27,7 @@ async function handleRegistration(event) {
         return;
     }
 
-    // Validación de la fuerza de la contraseña (opcional, puedes añadir más reglas)
+    // Validación de la fuerza de la contraseña (opcional, puedes añadir más reglas es regex)
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Al menos una letra y un número
     if (!passwordRegex.test(password)) {
         Swal.fire({

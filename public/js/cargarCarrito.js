@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cartContent = document.getElementById('cartContent');
-    const authMessage = document.getElementById('authMessage'); // Contenedor para el mensaje de autenticación
+    const authMessage = document.getElementById('authMessage'); 
 
     // Obtener los productos del carrito al cargar la página
     fetch('/carrito')
         .then((response) => {
             if (!response.ok) {
                 if (response.status === 401) {
-                    // Mostrar mensaje de autenticación
+                    // Mostrar mensaje de autenticación y status 401 significa no autorizado
                     authMessage.innerHTML = '<p>Necesitas iniciar sesión para ver el carrito.</p>';
                 }
                 throw new Error('No Autorizado');

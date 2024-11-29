@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const orderTotal = document.getElementById('order-total');
             let total = 0; 
 
-            // Renderizar productos en el carrito
             data.forEach(item => {
                 const li = document.createElement('li');
                 li.innerHTML = `

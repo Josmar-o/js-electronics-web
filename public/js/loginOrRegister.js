@@ -1,3 +1,4 @@
+//hace que el formulario de registro se muestre o se oculte
 function toggleForm() {
     const loginForm = document.getElementById("login-form");
     const registerForm = document.getElementById("register-form");

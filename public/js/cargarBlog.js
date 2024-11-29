@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             const catalogSection = document.querySelector('.news-content');
             data.forEach(news => {
-                // maybe in a future <a href="#" class="news-link"> </a> 
+                // maybe in a future <a href="#" class="news-link"> </a> para que sean links a las noticias
                 const newsElement = `
                 
                         <div class="news-item">

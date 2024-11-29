@@ -1,7 +1,7 @@
-// Función para obtener los pedidos del servidor (puedes adaptar esta parte según tu servidor)
+// Función para obtener los pedidos del servidor 
 async function obtenerPedidos() {
     try {
-        const response = await fetch('/mis-pedidos'); // Suponiendo que tienes esta ruta en tu backend
+        const response = await fetch('/mis-pedidos'); 
         const data = await response.json();
         
         if (data.pedidos && data.pedidos.length > 0) {
@@ -23,9 +23,9 @@ async function obtenerPedidos() {
 function mostrarPedidos(pedidos) {
     const tableBody = document.querySelector('#pedidosTable tbody');
     tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos elementos
-    let pedidoNum = 0;  // Variable para llevar el número de pedido secuencial
+    let pedidoNum = 0;  // var para contar el número de pedido actual
     let pedidoAnterior = null;
-    let totalPorPedido = 0; // Variable para acumular el total de cada pedido
+    let totalPorPedido = 0; // var para acumular el total de cada pedido
 
     pedidos.forEach(pedido => {
         const row = document.createElement('tr');
@@ -37,7 +37,6 @@ function mostrarPedidos(pedidos) {
             pedidoNum++;  
             pedido.pedidoNum = pedidoNum;
 
-            // Mostrar el total acumulado de pedidos anteriores antes de empezar con el siguiente grupo
             if (pedidoAnterior !== null) {
                 // Mostrar el total y número del pedido antes de la siguiente fila
                 const totalRow = document.createElement('tr');
