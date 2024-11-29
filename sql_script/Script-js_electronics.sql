@@ -7,7 +7,7 @@ CREATE TABLE usuarios (
     apellido VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL,
-    is_admin BOOLEAN DEFAULT FALSE
+    is_admin BOOLEAN DEFAULT FALSE,
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE productos (
 );
 
 
--- Table for storing multiple images per product
+
 CREATE TABLE producto_imagenes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     producto_id INT NOT NULL,
