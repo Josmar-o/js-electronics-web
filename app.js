@@ -1,8 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
-const session = require('express-session'); // Import express-session
-const bcrypt = require('bcrypt'); // Install bcryptjs for password hashing
+const session = require('express-session'); // Importar express-session
+const bcrypt = require('bcrypt'); // Importar for password hashing
 const validator = require('validator');
 const multer = require('multer');
 const Stripe = require('stripe');
@@ -12,12 +12,11 @@ require('dotenv').config();
 
 const app = express();
 
-// Configure express-session
 app.use(session({
-    secret: 'my_development_secret_key', // Replace with a secure key in production
+    secret: 'my_development_secret_key',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 } // Session expiry: 1 day
+    cookie: { maxAge: 24 * 60 * 60 * 1000 } // Session expiry: 1 dia
 }));
 
 
@@ -40,7 +39,6 @@ app.use(express.json()); // To handle JSON in request body
 app.use(express.urlencoded({ extended: true })); // To handle form data
 
 // Authentication route for login
-// Authentication route for login
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     const sql = 'SELECT * FROM usuarios WHERE email = ?';
@@ -61,15 +59,15 @@ app.post('/login', (req, res) => {
                         id: user.id,
                         email: user.email,
                         nombre: user.nombre,
-                        isAdmin: user.is_admin // Store isAdmin status in session
+                        isAdmin: user.is_admin
                     };
 
-                    // Redirect based on admin status
+                    // Redirigir al dashboard o página HTML según el rol del usuario
                     if (user.is_admin) {
-                        // Redirect to admin dashboard or HTML page
+                        // Redirigi a la página de administrador
                         res.json({ success: true, redirectUrl: '/admin/dashboard.html' });
                     } else {
-                        // Redirect to regular user profile or HTML page
+                        // Redigi a la página de usuario
                         res.json({ success: true, redirectUrl: '/html/home.html' });
                     }
                     console.log('Login successful');
@@ -85,7 +83,7 @@ app.post('/login', (req, res) => {
 
 
 
-// Middleware to check if user is logged in
+// Function to check if user is logged in
 function isAuthenticated(req, res, next) {
     if (req.session.user) {
         next();
@@ -494,14 +492,14 @@ app.get('/productos', (req, res) => {
     });
 });
 
-// Route to fetch a single product's details by ID
+// Ver un producto específico segun id
 app.get('/productos/:id', (req, res) => {
     const productId = req.params.id;
     const sql = `
         SELECT *, 
         (SELECT producto_imagenes.imagen_url FROM producto_imagenes WHERE producto_imagenes.producto_id = productos.id LIMIT 1) AS imagen_url 
         FROM productos 
-        WHERE id = ?;`; // Add condition to fetch specific product
+        WHERE id = ?;`; 
 
     db.query(sql, [productId], (err, result) => {
         if (err) {
@@ -509,9 +507,9 @@ app.get('/productos/:id', (req, res) => {
             return res.status(500).json({ error: 'Database error' });
         }
         if (result.length > 0) {
-            res.json(result[0]); // Send the product details back
+            res.json(result[0]); 
         } else {
-            res.status(404).json({ error: 'Product not found' }); // Handle product not found
+            res.status(404).json({ error: 'Product not found' }); 
         }
     });
 });
@@ -546,23 +544,23 @@ app.post('/agregar-blog', (req, res) => {
     });
   });
   
-// Serve your HTML file (for the catalog page)
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/html/home.html')); // Make sure you have the HTML file
+    res.sendFile(path.join(__dirname, '/html/home.html')); 
 });
 
 
 
 app.get('/get-session-info', (req, res) => {
     if (req.session.user) {
-        res.json({ is_admin: req.session.user.isAdmin });  // Use isAdmin here
+        res.json({ is_admin: req.session.user.isAdmin });  
     } else {
         res.json({ is_admin: false });
     }
 });
 
 
-// Middleware para verificar si el usuario es administrador
+// Funcion para verificar si el usuario es administrador
 function isAdmin(req, res, next) {
     
     if (req.session.user && req.session.user.isAdmin) {
@@ -696,7 +694,7 @@ app.get('/pedidos', (req, res) => {
 
             acc[pedido_id].productos.push({
                 producto_id, 
-                nombre: producto_nombre,  // Aquí agregas el nombre del producto
+                nombre: producto_nombre,  
                 cantidad, 
                 precio_unitario
             });
@@ -805,7 +803,7 @@ app.get('/api/pedido/confirmacion', isAuthenticated, (req, res) => {
 app.get('/config', (req, res) => {
     res.json({ stripePublicKey: process.env.STRIPE_PUBLIC_KEY });
 });
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // Reemplaza con tu clave secreta de Stripe
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY); 
 
 app.post('/procesar-pago', isAuthenticated, async (req, res) => {
     const usuario_id = req.session.user.id;
