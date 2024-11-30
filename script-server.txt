@@ -1,0 +1,79 @@
+Actualizar Server
+sudo apt update
+sudo apt upgrade
+
+
+script MySQL on db
+sudo apt install mysql-server -y
+sudo mysql_secure_installation
+
+
+
+CREATE USER 'admin-js'@'%' IDENTIFIED BY 'Js/3lectronics';
+GRANT ALL PRIVILEGES ON js_electronics.* TO 'admin-js'@'%' WITH GRANT OPTION;
+
+
+ALTER USER 'admin-js'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'Js/3lectronics'; 
+FLUSH PRIVILEGES;
+
+
+GRANT ALL PRIVILEGES ON js_electronics.* TO 'admin-js'@'%' IDENTIFIED BY 'Js/3lectronics';
+
+ALTER USER 'admin-js'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'Js/3lectronics'; 
+
+AHORA INSTALAR EL NODE JS
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+source ~/.bashrc
+
+nvm list-remote
+
+nvm install v20.17.0
+
+
+INSTALAR PM2 
+npm install -g pm2
+pm2 --version
+ON /js-electronics-web
+pm2 start app.js --name jselectronics
+
+INSTALAR NGINX
+
+sudo nano /etc/nginx/sites-available/jselectronics.live
+
+server {
+    listen 80;
+    server_name jselectronics.live www.jselectronics.live;
+
+    location / {
+        proxy_pass http://localhost:3000;  # Proxy traffic to Node.js on port 3000
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/jselectronics.live /etc/nginx/sites-enabled/
+
+sudo nginx -t
+sudo systemctl reload nginx
+
+
+SCRIPT PARA INSTALAR UN CERTIFICADE GRATIS SSL
+//descargar certificado
+sudo apt install certbot python3-certbot-nginx
+
+//request certificate to the server
+
+sudo certbot --nginx -d jselectronics.live -d www.jselectronics.live
+
+
+
+
+
+
+
+
